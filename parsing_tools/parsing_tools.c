@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:55:17 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/01/31 20:14:54 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/02/01 15:48:06 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parsing_tools.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <unistd.h>
 
 int	get_validkeylen(char *line)
 {
@@ -29,6 +30,7 @@ int	get_validkeylen(char *line)
 	while (
 		(line[i] >= 'a' && line[i] <= 'z')
 		|| (line[i] >= 'A' && line[i] <= 'Z')
+		|| (i >= 1 && line[i] >= '0' && line[i] <= '9')
 		|| (line[i] == '_')
 	)
 		i++;
@@ -161,18 +163,24 @@ char	is_redirection(char *s)
 	return (0);
 }
 
-char	*tokenize_till_quote(char	*line, char deli, int *to_append, int withquote)
+char	*tokenize_till_quote(char	*line, char deli, int *to_append)
 {
 	int len;
 	// should STOP at delimiter. OR at ' OR " WHEN !withquote
 	len = 1;
-	while (line[len]
-		&& (
-			(line[len] != deli)
-			|| (!withquote && (line[len] != '\'' || line[len] != '"'))
-		))
+	while (line[len] && line[len] != deli)
 		len++;
-	if (withquote)
+	len++;
+	*to_append = len;
+	return (ft_substr(line, 0, len));
+}
+
+char	*tokenize_till_space(char	*line, int *to_append)
+{
+	int len;
+	// should STOP at delimiter. OR at ' OR " WHEN !withquote
+	len = 1;
+	while (line[len] && line[len] != ' ' && line[len] != '\'' && line[len] != '"')
 		len++;
 	*to_append = len;
 	return (ft_substr(line, 0, len));
@@ -190,26 +198,26 @@ int	lexical_tokenparsing(t_exectask *task)
 		while(*taskline)
 		{
 			to_appnd = 1;
-			if (is_redirection(taskline) || is_tasksplitter(taskline))
+			if (is_redirection(taskline) || is_tasksplitter(taskline)) // redirection and task splitter tokens
 			{
 			to_appnd = is_redirection(taskline) | is_tasksplitter(taskline);
 			hld = ft_substr(taskline,0,to_appnd);
 			append_lexitoken(&task->rawtoken, hld, taskline[to_appnd]);
 			}
-			else if (*taskline=='\'' || *taskline=='"')
+			else if (*taskline=='\'' || *taskline=='"') // double and single quote tokens
 			{
-				hld = tokenize_till_quote(taskline, *taskline, &to_appnd, 1);
+				hld = tokenize_till_quote(taskline, *taskline, &to_appnd);
 				append_lexitoken(&task->rawtoken, hld, taskline[to_appnd]);
 			}
-			else if (*taskline == '$')
+			else if (*taskline == '$') // variable expansion tokens
 			{
 				to_appnd = get_validkeylen(taskline + 1) + 1;
 				hld = ft_substr(taskline, 0, to_appnd);
 				append_lexitoken(&task->rawtoken, hld, taskline[to_appnd]);
 			}
-			else if (*taskline != ' ')
+			else if (*taskline != ' ') // miscelaneous tokens (var assign, single word tokens)
 			{
-				hld = tokenize_till_quote(taskline,' ', &to_appnd, 0);
+				hld = tokenize_till_space(taskline, &to_appnd);
 				append_lexitoken(&task->rawtoken, hld, taskline[to_appnd]);
 			}
 			taskline += to_appnd;
@@ -217,6 +225,23 @@ int	lexical_tokenparsing(t_exectask *task)
 		task=task->next;
 	}
 	return (0);
+}
+
+
+//check token if it starts with $ expand it, if 
+
+int	tokens_aggregation(t_exectask *task, t_lexitoken	*tokenhld)
+{
+	char	*newtoken;
+	while (task)
+	{
+		tokenhld = task->rawtoken;
+		while (tokenhld)
+		{
+			
+		}
+		task = task->next;
+	}
 }
 
 t_exectask	*parse_commandline(char *line)
@@ -227,15 +252,16 @@ t_exectask	*parse_commandline(char *line)
 	if (!tasks)
 		return (NULL);
 	lexical_tokenparsing(tasks);
-	while (tasks)
-	{
-		printf("line is: %s\n", tasks->rawtask);
-		while (tasks->rawtoken)
-		{
-			printf("token: %s\n",tasks->rawtoken->token);
-			tasks->rawtoken = tasks->rawtoken->next;
-		}
-		tasks = tasks->next;
-	}
+	token_analysis(tasks);
+	// while (tasks)
+	// {
+	// 	printf("line is: %s\n", tasks->rawtask);
+	// 	while (tasks->rawtoken)
+	// 	{
+	// 		printf("token: %s\n",tasks->rawtoken->token);
+	// 		tasks->rawtoken = tasks->rawtoken->next;
+	// 	}
+	// 	tasks = tasks->next;
+	// }
 	return (tasks);
 }

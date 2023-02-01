@@ -1,10 +1,10 @@
-CC = clang -Wall -Werror -Wextra -fsanitize=address
+CC = clang -Wall -Werror -Wextra
 
 
-SRC = main.c parsing_tools/parsing_tools.c
+SRC = main.c parsing_tools/parsing_tools.c env_tools/env_tools.c
 
 OBJS = $(patsubst %.c,%.o,$(SRC))
-HDRS = main.h parsing_tools/parsing_tools.h
+HDRS = main.h parsing_tools/parsing_tools.h env_tools/env_tools.h
 
 
 NAME = minishell

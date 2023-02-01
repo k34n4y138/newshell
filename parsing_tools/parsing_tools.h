@@ -6,14 +6,14 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:18:16 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/01/31 16:20:27 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/02/01 15:30:12 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_TOOLS_H
 # define PARSING_TOOLS_H
 # include <stdbool.h>
-
+# include "../env_tools/env_tools.h"
 typedef enum e_output_type
 {
 	C_OUT_NONE,
@@ -41,7 +41,6 @@ typedef enum e_tokentype
 	TK_VARKEY,
 	TK_ASSIGN,
 	TK_ARG
-	
 }	t_lexitoken_type;
 
 typedef struct s_lextoken
@@ -82,11 +81,9 @@ typedef struct s_exectask
 		char			*output_file;
 		int				out_pipe;
 	};
-	
 	t_taskrelation		taskrelation;
-	
-	struct s_exectask		*next;
-	struct s_exectask		*prev;
+	struct s_exectask	*next;
+	struct s_exectask	*prev;
 }						t_exectask;
 
 typedef struct s__prs
@@ -96,6 +93,6 @@ typedef struct s__prs
 	char	*task;
 	int		tasksplitter_type;	
 }		t_parsingtask;
-char	*tokenize_till_quote(char	*line, char deli, int *to_append, int withquote);
+char	*tokenize_till_quote(char	*line, char deli, int *to_append);
 t_exectask	*parse_commandline(char *line);
 #endif
