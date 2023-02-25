@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:55:17 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/02/01 15:48:06 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/02/02 15:38:00 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,19 +230,19 @@ int	lexical_tokenparsing(t_exectask *task)
 
 //check token if it starts with $ expand it, if 
 
-int	tokens_aggregation(t_exectask *task, t_lexitoken	*tokenhld)
-{
-	char	*newtoken;
-	while (task)
-	{
-		tokenhld = task->rawtoken;
-		while (tokenhld)
-		{
+// int	tokens_aggregation(t_exectask *task, t_lexitoken	*tokenhld)
+// {
+// 	char	*newtoken;
+// 	while (task)
+// 	{
+// 		tokenhld = task->rawtoken;
+// 		while (tokenhld)
+// 		{
 			
-		}
-		task = task->next;
-	}
-}
+// 		}
+// 		task = task->next;
+// 	}
+// }
 
 t_exectask	*parse_commandline(char *line)
 {
@@ -252,16 +252,16 @@ t_exectask	*parse_commandline(char *line)
 	if (!tasks)
 		return (NULL);
 	lexical_tokenparsing(tasks);
-	token_analysis(tasks);
-	// while (tasks)
-	// {
-	// 	printf("line is: %s\n", tasks->rawtask);
-	// 	while (tasks->rawtoken)
-	// 	{
-	// 		printf("token: %s\n",tasks->rawtoken->token);
-	// 		tasks->rawtoken = tasks->rawtoken->next;
-	// 	}
-	// 	tasks = tasks->next;
-	// }
+	// token_analysis(tasks);
+	while (tasks)
+	{
+		printf("line is: %s\n", tasks->rawtask);
+		while (tasks->rawtoken)
+		{
+			printf("token: %s\n",tasks->rawtoken->token);
+			tasks->rawtoken = tasks->rawtoken->next;
+		}
+		tasks = tasks->next;
+	}
 	return (tasks);
 }
