@@ -6,93 +6,53 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:18:16 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/02/01 15:30:12 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/04/12 22:49:18 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_TOOLS_H
 # define PARSING_TOOLS_H
 # include <stdbool.h>
-# include "../env_tools/env_tools.h"
-typedef enum e_output_type
+# include "../env_tools/env_manager.h"
+
+enum	e_redirection
 {
-	C_OUT_NONE,
-	C_OUT_PIPE,
-	C_OUT_FILE,
-	C_OUT_APPEND
-}	t_output_type;
+	REDIR_NONE = 0x0,
+	
+	REDIR_FILEIN  = 8,
+	REDIR_PIPEIN = 64,
+	REDIR_HEREDOC = 256,
+	
+	REDIR_FILEOUT = 16,
+	REDIR_FILEAPND = 32,
+	REDIR_PIPEOUT = 128,
+	
+};
 
-typedef enum e_input_type
+
+typedef struct redirect
 {
-	C_IN_NONE,
-	C_IN_PIPE,
-	C_IN_FILE,
-	C_IN_HEREDOC
-}	t_input_type;
+	int		type;
+	char	*file;
+	int		fd;
+	struct redirect	*next;
+	struct redirect	*prev;
+}	t_redirect;
 
-typedef enum e_tokentype
+
+typedef struct s_task
 {
-	TK_NONE,
-	TK_REDIRECT_IN,
-	TK_REDIRECT_OUT,
-	TK_TASKSPLITTER,
-	TK_DOUBLEQ,
-	TK_SINGLEQ,
-	TK_VARKEY,
-	TK_ASSIGN,
-	TK_ARG
-}	t_lexitoken_type;
+	char	*command;
+	char	**args;
+	
+	int		redirections;
+	int		fd_in;
+	int		fd_out;
+	
+	struct s_task	*next;
+	struct s_task	*prev;
+	
+}
 
-typedef struct s_lextoken
-{
-	char				*token;
-	t_lexitoken_type	type;
-	bool				space_after;
-	struct s_lextoken	*prev;
-	struct s_lextoken	*next;
-}	t_lexitoken;
 
-typedef enum e_taskrelation
-{
-	TREL_NONE,
-	TREL_AND,
-	TREL_OR,
-	TREL_PIPE
-}	t_taskrelation;
-
-typedef struct s_exectask
-{
-	char				*rawtask;
-	t_lexitoken			*rawtoken;
-
-	char				*command;
-	char				**args;
-	t_input_type		input_type;
-	union
-	{
-		char			*heredoc_del;
-		int				in_pipe;
-		char			*input_file;
-
-	};
-	t_output_type		output_type;
-	union
-	{
-		char			*output_file;
-		int				out_pipe;
-	};
-	t_taskrelation		taskrelation;
-	struct s_exectask	*next;
-	struct s_exectask	*prev;
-}						t_exectask;
-
-typedef struct s__prs
-{
-	int		start_idx;
-	int		end_idx;
-	char	*task;
-	int		tasksplitter_type;	
-}		t_parsingtask;
-char	*tokenize_till_quote(char	*line, char deli, int *to_append);
-t_exectask	*parse_commandline(char *line);
 #endif
