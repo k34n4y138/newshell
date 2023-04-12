@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_tools.h                                        :+:      :+:    :+:   */
+/*   env_manager.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/30 12:39:49 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/02/02 15:37:40 by zmoumen          ###   ########.fr       */
+/*   Created: 2023/04/11 15:51:55 by zmoumen           #+#    #+#             */
+/*   Updated: 2023/04/11 18:19:50 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_TOOLS_H
-# define ENV_TOOLS_H
+#ifndef ENV_MANAGER_H
+# define ENV_MANAGER_H
 # include "../libft/libft.h"
 
-typedef struct s_env
-{
-	char	*key;
-	char	*val;
-	int		exported;
-}			t_env;
-char	*expand_variable(char	*key);
+
+char	***env_store(int destroy);
+char	**env_init(char **initenv);
+char	*env_lookup(char *key);
+int		env_insert(char *key, char *value);
+int		env_update(char *key, char *value);
+int		env_delete(char *key);
 #endif
