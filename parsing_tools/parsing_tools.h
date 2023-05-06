@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:18:16 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/04/12 22:49:18 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/04 16:39:59 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,41 +18,58 @@
 enum	e_redirection
 {
 	REDIR_NONE = 0x0,
-	
-	REDIR_FILEIN  = 8,
-	REDIR_PIPEIN = 64,
-	REDIR_HEREDOC = 256,
-	
-	REDIR_FILEOUT = 16,
-	REDIR_FILEAPND = 32,
-	REDIR_PIPEOUT = 128,
-	
+	//
+	REDIR_FILEIN = 0x08,
+	REDIR_PIPEIN = 0x10,
+	REDIR_HEREDOC = 0x20,
+	//
+	REDIR_FILEOUT = 0x40,
+	REDIR_FILEAPND = 0x80,
+	REDIR_PIPEOUT = 0x100,
 };
-
 
 typedef struct redirect
 {
-	int		type;
-	char	*file;
-	int		fd;
+	int				type;
+	char			*file;
+	int				fd;
 	struct redirect	*next;
 	struct redirect	*prev;
-}	t_redirect;
+}	t_redirection;
 
-
-typedef struct s_task
+enum	e_tokens
 {
-	char	*command;
-	char	**args;
-	
-	int		redirections;
-	int		fd_in;
-	int		fd_out;
-	
-	struct s_task	*next;
-	struct s_task	*prev;
-	
-}
+	TOK_LITERAL,
+	TOK_PIPE,
+	TOK_VAR,
+	TOK_DBLQ,
+	TOK_SNGQ,
+	TOK_HRDC,
+	TOK_FILEIN,
+	TOK_FILEOUT,
+	TOK_FILEAPND,
+};
 
+
+typedef	struct token
+{
+	char				*raw;
+	char				*token;
+	int					type;
+	bool				space_after;
+	size_t				len;
+	struct token		*next;
+	struct token		*prev;
+}	t_token;
+
+typedef	struct command
+{
+	char				*rawline;
+	char				*command;
+	char				**args;
+	t_redirection		*redirects;
+	struct command		*next;
+	struct command		*prev;
+}	t_command;
 
 #endif

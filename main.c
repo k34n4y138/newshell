@@ -6,32 +6,29 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/02/25 10:59:17 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:01:27 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include <readline/readline.h>
-#include <stdio.h>
-#include <sys/signal.h>
+#include <readline/history.h>
+#include "env_tools/env_manager.h"
 #include "parsing_tools/parsing_tools.h"
 
-
-void	ignore_waa(int sig)
+int	main(int argc, char **argv, char **environ)
 {
-	(void)sig;
-	write(0,"\n",1);
-}
+	char	*line;
 
-int	main(void)
-{
-	signal(SIGINT, ignore_waa);
-	char *line;
-	// int	len;
-	while(1)
+	env_init(environ);
+	while (1)
 	{
-		line = readline("\nminishell> ");
-		add_history(line);
+		line = readline("minishell$ ");
+		if (!line)
+			break ;
 		parse_commandline(line);
+		add_history(line);
+		free(line);
 	}
+	return (0);
 }
