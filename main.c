@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/06 19:01:27 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/08 16:17:59 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **environ)
 	while (1)
 	{
 		line = readline("minishell$ ");
+		printf("got: %s\n", line);
 		if (!line)
 			break ;
 		parse_commandline(line);

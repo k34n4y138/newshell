@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:18:16 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/04 16:39:59 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/08 20:18:03 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,27 @@ typedef	struct token
 	struct token		*prev;
 }	t_token;
 
+
+enum 
+{
+	IO_IN;
+	IO_OUT;
+}
+
+
 typedef	struct command
 {
 	char				*rawline;
+	t_token				*tokens;
 	char				*command;
 	char				**args;
+	int					redirections;
+	int					io[2];
 	t_redirection		*redirects;
 	struct command		*next;
 	struct command		*prev;
 }	t_command;
 
+
+t_command *parse_commandline(char *line);
 #endif

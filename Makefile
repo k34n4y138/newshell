@@ -1,4 +1,4 @@
-CC = clang  #-fsanitize=address -g
+CC = clang  -fsanitize=address -g
 
 
 SRC = main.c parsing_tools/parsing_tools.c env_tools/env_store.c env_tools/env_crud.c
