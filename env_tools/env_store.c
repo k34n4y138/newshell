@@ -6,14 +6,12 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:42 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/04/11 18:21:28 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/16 20:39:24 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_manager.h"
+#include "../libft/libft.h"
 
-
-/// @brief internal function to store the environment
 char	***env_store(int destroy)
 {
 	static char	**env = NULL;
@@ -33,7 +31,6 @@ char	***env_store(int destroy)
 	return (&env);
 }
 
-/// @brief initialize the environment
 char	**env_init(char **initenv)
 {
 	char	**env;
@@ -55,7 +52,6 @@ char	**env_init(char **initenv)
 	return (env + 1);
 }
 
-/// @brief destroy the environment
 void	env_destroy(void)
 {
 	env_store(1);

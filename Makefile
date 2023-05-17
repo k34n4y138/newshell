@@ -1,33 +1,45 @@
-CC = clang  -fsanitize=address -g
+CC = clang -fsanitize=address -g
+
+CFALGS = -Wall -Wextra -Werror
 
 
-SRC = main.c parsing_tools/parsing_tools.c env_tools/env_store.c env_tools/env_crud.c
+PARSING_SRC = parser/parser.c parser/tokenizers/token_expanders.c parser/tokenizers/token_splitters.c parser/tokenizers/tokenizer.c	parser/command_builders/command_builders.c
+ENV_SRC = env_tools/env_crud.c env_tools/env_store.c
+BUILTINS_SRC = 
+EXECUTION_SRC =
+
+SRC = main.c $(PARSING_SRC) $(ENV_SRC) $(BUILTINS_SRC) $(EXECUTION_SRC)
 
 OBJS = $(patsubst %.c,%.o,$(SRC))
-HDRS = main.h parsing_tools/parsing_tools.h env_tools/env_manager.h
+DEPS = $(patsubst %.c,%.d,$(SRC))
+
 
 
 NAME = minishell
 LIBFT = libft/libft.a
 
-%.o: %.c $(HDRS)
-	$(CC) $< -c  -o $@
+all: $(NAME)
+
+-include $(DEPS)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) -lreadline $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFALGS) $(OBJS) $(LIBFT)  -o $(NAME) -lreadline
 
-all:$(NAME)
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@ -MMD
+
 
 $(LIBFT):
-	make -C libft bonus
+	@$(MAKE) -C libft> /dev/null
+	@echo "Compiling libft"
 
 clean:
-	rm -rf $(OBJS)
-	make -C libft fclean
+	@$(MAKE) -C libft fclean > /dev/null
+	@rm -f $(OBJS) $(DEPS)
+	@echo "Removing Objects and Dep files"
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -f $(NAME)
+	@echo "Removing $(NAME)"
 
 re: fclean all
-
-.PHONY: all fclean clean re 

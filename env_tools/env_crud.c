@@ -6,18 +6,19 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/04/12 15:39:17 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:05:20 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_manager.h"
+#include "../libft/libft.h"
 
 int	env_insert(char *key, char *value)
 {
 	char	***env;
 	char	**new_env;
 	char	*new_value;
-	size_t	envsize;
+	int		envsize;
 
 	env = env_store(0);
 	envsize = 0;
@@ -57,7 +58,7 @@ char	*env_lookup(char *key)
 			return (env[i] + keylen + 1);
 		i++;
 	}
-	return (NULL);
+	return ("");
 }
 
 int	env_update(char *key, char *value)
@@ -80,7 +81,6 @@ int	env_update(char *key, char *value)
 	env_insert(key, value);
 	return (1);
 }
-
 
 int	env_delete(char *key)
 {
