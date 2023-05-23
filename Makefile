@@ -3,7 +3,7 @@ CC = clang -fsanitize=address -g
 CFALGS = -Wall -Wextra -Werror
 
 
-PARSING_SRC = parser/parser.c parser/tokenizers/token_expanders.c parser/tokenizers/token_splitters.c parser/tokenizers/tokenizer.c	parser/command_builders/command_builders.c
+PARSING_SRC = parser/parser.c parser/tokenizers/token_expanders.c parser/tokenizers/token_splitters.c parser/tokenizers/tokenizer.c	parser/command_builders/command_builders.c parser/tokenizers/token_syntaxifiers.c parser/tokenizers/token_mergers.c
 ENV_SRC = env_tools/env_crud.c env_tools/env_store.c
 BUILTINS_SRC = 
 EXECUTION_SRC =

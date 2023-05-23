@@ -6,13 +6,14 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 16:31:09 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/17 18:45:02 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/21 15:02:57 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_TOKEN_H
 
 # define T_TOKEN_H
+
 # include <stdbool.h>
 
 enum	e_tokens
@@ -40,5 +41,12 @@ typedef struct token
 	struct token		*next;
 	struct token		*prev;
 }	t_token;
+
+typedef struct s_tokreport
+{
+	int		status;
+	char	*error;
+	t_token	*token;
+}			t_tokreport;
 
 #endif

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "t_token.h": "c",
+        "libft.h": "c",
+        "stdbool.h": "c",
+        "__config": "c"
+    }
+}

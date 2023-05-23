@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:27 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/16 20:33:14 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/23 16:23:45 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,22 @@ int	split_quote(char	*line, char qt, t_token **tokens)
 	return (tkn->len);
 }
 
-int	split_literal(char *line, t_token **tokens)
+int	split_literal(char *line, t_token **tokens, bool subtok)
 {
 	t_token	*tkn;
+	char	*match;
 
+	if (subtok)
+		match = " ";
+	else
+		match = "'\"$<>| ";
 	tkn = ft_calloc(1, sizeof(t_token));
-	while (line[tkn->len] && !ft_strchr("'\"$<>| ", line[tkn->len]))
+	while (line[tkn->len] && !ft_strchr(match, line[tkn->len])
+	)
 		tkn->len++;
 	tkn->raw = ft_substr(line, 0, tkn->len);
+	if (subtok)
+		tkn->token = ft_strdup(tkn->raw);
 	if (line[tkn->len] == ' ')
 		tkn->space_after = true;
 	tkn->type = TOK_LITERAL;
@@ -104,6 +112,7 @@ int	split_redirection(char	*line, int toklen, t_token **tokens)
 		tkn->type = TOK_FILEOUT;
 	if (line[tkn->len] == ' ')
 		tkn->space_after = true;
+	tkn->token = ft_strdup(tkn->raw);
 	append_token(tkn, tokens);
 	return (tkn->len);
 }

@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:21:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/17 20:24:09 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/23 16:11:39 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../libft/libft.h"
 #include "t_token.h"
 
-t_token	*tokenizer(char *line);
+t_token	*tokenizer(char *line, bool subtok);
 
 size_t	env_namelen(char *name)
 {
@@ -57,43 +57,26 @@ char	*expand_line(char *line)
 	return (ret);
 }
 
-/// @brief insert a new chain of tokens after the current token
-void	insert_token(t_token *token, t_token *new)
+
+
+/// @brief  populate the ->token field of the tokens, 
+///		tokens for DBLQ it replace $var with values, for the rest it just copy the line
+/// 	removes quotes from DBLQ and SGLQ,
+void	expand_literal_tokens(t_token	*token)
 {
-	t_token	*tmp;
-
-	tmp = token->next;
-	token->next = new;
-	new->prev = token;
-	while (new->next)
-		new = new->next;
-	new->next = tmp;
-	if (tmp)
-		tmp->prev = new;
-}
-
-void	tokens_expander(t_token	*token)
-{
-	t_token	*tmp1;
-	t_token	*tmp2;
-
 	while (token)
 	{
-		if (token->type & (TOK_VAR | TOK_DBLQ))
-			token->token = expand_line(token->raw + (token->type == TOK_DBLQ));
-		if (token->type == TOK_VAR)
-		{
-			tmp1 = tokenizer(token->token);
-			tmp2 = tmp1;
-			while (tmp1)
-			{
-				tmp1->type = TOK_LITERAL;
-				tmp1 = tmp1->next;
-			}
-			insert_token(token, tmp2);
-		}
-		else
-			token->token = ft_strdup(token->raw + (token->type == TOK_SNGQ));
-		token = token->next;
+		if (token->type == TOK_DBLQ
+			&& (
+				!token->prev
+				|| token->prev->type != TOK_HRDC)
+			)
+			token->token = expand_line(token->raw + 1);
+		else if (token->type & (TOK_LITERAL | TOK_SNGQ))
+			token->token =ft_substr(token->raw,
+				token->type == TOK_SNGQ, ft_strlen(token->raw) - 2 * (token->type == TOK_SNGQ));
+		if (token->type & TOK_DBLQ)
+			ft_strrchr(token->token, token->raw[0])[0] = '\0';
+		token= token->next;
 	}
 }

@@ -6,10 +6,9 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:56:35 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/16 20:08:07 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/21 14:19:43 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef T_COMMAND_H
 # define T_COMMAND_H
@@ -24,7 +23,6 @@ enum	e_redirection
 	REDIR_FILEAPND = 0x80,
 	REDIR_PIPEOUT = 0x100,
 };
-
 
 typedef struct redirect
 {
