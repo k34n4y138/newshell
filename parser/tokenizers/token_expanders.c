@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:21:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/23 16:11:39 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/05/23 16:43:54 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,7 @@ void	expand_literal_tokens(t_token	*token)
 {
 	while (token)
 	{
-		if (token->type == TOK_DBLQ
-			&& (
-				!token->prev
-				|| token->prev->type != TOK_HRDC)
-			)
+		if (token->type == TOK_DBLQ)
 			token->token = expand_line(token->raw + 1);
 		else if (token->type & (TOK_LITERAL | TOK_SNGQ))
 			token->token =ft_substr(token->raw,
