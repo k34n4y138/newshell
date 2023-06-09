@@ -6,12 +6,11 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 16:31:09 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/21 15:02:57 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:37:56 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_TOKEN_H
-
 # define T_TOKEN_H
 
 # include <stdbool.h>
@@ -28,13 +27,13 @@ enum	e_tokens
 	TOK_FILEIN = 0x100,
 	TOK_FILEOUT = 0x200,
 	TOK_FILEAPND = 0x400,
+	TOK_REDIRS = TOK_FILEIN | TOK_FILEOUT | TOK_FILEAPND | TOK_HRDC,
 };
 
 typedef struct token
 {
 	char				*raw;
 	char				*token;
-	char				**subtokens;
 	int					type;
 	bool				space_after;
 	int					len;

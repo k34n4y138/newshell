@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/22 16:47:39 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/09 21:44:38 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,28 @@
 #include "env_tools/env_manager.h"
 #include "parser/parser.h"
 #include <stdlib.h>
+
+void print_command(t_command *cmd)
+{
+	while (cmd)
+	{
+		printf("COMMAND: %s\n", cmd->argv[0]);
+		printf("ARGC: %d\n", cmd->argc);
+		for (int i = 0; i < cmd->argc; i++)
+			printf("\t\tARG[%d]: %s\n", i, cmd->argv[i]);
+		printf("REDIRECTS:\n");
+		t_redirection *redirs = cmd->_redirects;
+		while (redirs)
+		{
+			printf("\t\tREDIR: %d\n", redirs->type);
+			printf("\t\tFILE: %s\n", redirs->file);
+			redirs = redirs->next;
+		}
+		printf("+------------------------------------+\n");
+		cmd = cmd->next;
+	}
+}
+
 
 int	main(int argc, char **argv, char **environ)
 {
@@ -30,6 +52,8 @@ int	main(int argc, char **argv, char **environ)
 			break ;
 		cmd = parse_command(line);
 		add_history(line);
+		print_command(cmd);
+		destroy_commands(cmd);
 		free(line);
 	}
 	return (0);

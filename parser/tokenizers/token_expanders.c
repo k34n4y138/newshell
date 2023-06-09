@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:21:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/23 16:43:54 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/09 17:25:54 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "../../libft/libft.h"
 #include "t_token.h"
 
-t_token	*tokenizer(char *line, bool subtok);
-
+/// @brief get the length of the variable name
 size_t	env_namelen(char *name)
 {
 	size_t	len;
@@ -34,6 +33,7 @@ size_t	env_namelen(char *name)
 	return (len);
 }
 
+/// @brief recreate a new line with variables expanded
 char	*expand_line(char *line)
 {
 	char	*ret;
@@ -57,11 +57,13 @@ char	*expand_line(char *line)
 	return (ret);
 }
 
-
-
-/// @brief  populate the ->token field of the tokens, 
-///		tokens for DBLQ it replace $var with values, for the rest it just copy the line
-/// 	removes quotes from DBLQ and SGLQ,
+/// @brief expand literal tokens 
+///        and populate the token->token field of tokens
+///      -# All quoted tokens are stripped from the quote characters.
+///      -# Double quote characters are expanded directly.
+///      -# Context of quotes no longer matters so they're converted to literal.
+///		 -# Expansion of variable tokens is kept till merging phase.
+///        	because we need to know which context the variable is in
 void	expand_literal_tokens(t_token	*token)
 {
 	while (token)
@@ -69,10 +71,21 @@ void	expand_literal_tokens(t_token	*token)
 		if (token->type == TOK_DBLQ)
 			token->token = expand_line(token->raw + 1);
 		else if (token->type & (TOK_LITERAL | TOK_SNGQ))
-			token->token =ft_substr(token->raw,
-				token->type == TOK_SNGQ, ft_strlen(token->raw) - 2 * (token->type == TOK_SNGQ));
+			token->token = ft_substr(token->raw,
+					token->type == TOK_SNGQ,
+					ft_strlen(token->raw) - 2 * (token->type == TOK_SNGQ));
 		if (token->type & TOK_DBLQ)
 			ft_strrchr(token->token, token->raw[0])[0] = '\0';
-		token= token->next;
+		if (token->type & (TOK_SNGQ | TOK_DBLQ))
+			token->type = TOK_LITERAL;
+		token = token->next;
 	}
 }
+
+
+/// bash command to find only .c and .h files 
+/// find . -type f -name "*.c" -o -name "*.h"
+/// execute cat on all files found
+/// find . -type f -name "*.c" -o -name "*.h" -exec cat {} \;
+/// count lines of all files found 
+/// find . -type f -name "*.c" -o -name "*.h" -exec cat {} \; | wc -l

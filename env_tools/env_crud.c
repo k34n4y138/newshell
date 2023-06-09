@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/17 17:05:20 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/08 17:36:10 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	env_delete(char *key)
 	while (env[0][envsize])
 	{
 		if (keycmp(env[0][envsize], key))
-
 			new_env[newenvsize++] = env[0][envsize++];
 		else
 			free(env[0][envsize++]);
@@ -110,4 +109,3 @@ int	env_delete(char *key)
 	*env = new_env;
 	return (0);
 }
-

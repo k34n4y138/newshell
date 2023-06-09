@@ -6,32 +6,32 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:27 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/23 16:23:45 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/09 16:20:16 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/libft.h"
 #include "t_token.h"
-#include "_tokenizers.h"
+#include "_token_splitters.h"
 
-
-int	append_token(t_token	*token, t_token **list)
+void	append_token(t_token	*token, t_token **list)
 {
 	t_token	*tmp;
 
 	if (!*list)
 	{
 		*list = token;
-		return (1);
+		return ;
 	}
 	tmp = *list;
 	while (tmp->next)
 		tmp = tmp->next;
 	token->prev = tmp;
 	tmp->next = token;
-	return (1);
+	return ;
 }
 
+/// @brief given that line starts with (qt), it will substr till next (qt)
 int	split_quote(char	*line, char qt, t_token **tokens)
 {
 	t_token	*tkn;
@@ -52,15 +52,17 @@ int	split_quote(char	*line, char qt, t_token **tokens)
 	return (tkn->len);
 }
 
+/// @brief substr till space or a special character
+/// @param subtok if true, will split by spaces only, ignoring other characters
+///        subtok is used after expanding variable tokens 
 int	split_literal(char *line, t_token **tokens, bool subtok)
 {
 	t_token	*tkn;
 	char	*match;
 
+	match = "'\"$<>| ";
 	if (subtok)
 		match = " ";
-	else
-		match = "'\"$<>| ";
 	tkn = ft_calloc(1, sizeof(t_token));
 	while (line[tkn->len] && !ft_strchr(match, line[tkn->len])
 	)
@@ -90,7 +92,6 @@ int	split_dollar(char	*line, t_token **tokens)
 	append_token(tkn, tokens);
 	return (tkn->len);
 }
-
 
 int	split_redirection(char	*line, int toklen, t_token **tokens)
 {

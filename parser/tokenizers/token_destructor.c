@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _tokenizers.h                                      :+:      :+:    :+:   */
+/*   token_destructor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 16:39:09 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/21 14:20:11 by zmoumen          ###   ########.fr       */
+/*   Created: 2023/06/08 18:34:04 by zmoumen           #+#    #+#             */
+/*   Updated: 2023/06/09 15:51:54 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TOKENIZERS_H
-# define _TOKENIZERS_H
-# include "t_token.h"
+#include "t_token.h"
+#include <stdlib.h>
 
-int	split_redirection(char	*line, int toklen, t_token **tokens);
-int	split_dollar(char	*line, t_token **tokens);
-int	split_literal(char *line, t_token **tokens, bool subtok);
-int	split_quote(char	*line, char qt, t_token **tokens);
+void	destroy_tokens(t_token *tokens)
+{
+	t_token	*trgt;
 
-#endif
+	while (tokens)
+	{
+		trgt = tokens;
+		tokens = tokens->next;
+		free(trgt->raw);
+		free(trgt->token);
+		free(trgt);
+	}
+}

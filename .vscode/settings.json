@@ -3,6 +3,9 @@
         "t_token.h": "c",
         "libft.h": "c",
         "stdbool.h": "c",
-        "__config": "c"
+        "__config": "c",
+        "command_builders.h": "c",
+        "t_command.h": "c",
+        "_token_splitters.h": "c"
     }
 }

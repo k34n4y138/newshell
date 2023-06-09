@@ -3,12 +3,24 @@ CC = clang -fsanitize=address -g
 CFALGS = -Wall -Wextra -Werror
 
 
-PARSING_SRC = parser/parser.c parser/tokenizers/token_expanders.c parser/tokenizers/token_splitters.c parser/tokenizers/tokenizer.c	parser/command_builders/command_builders.c parser/tokenizers/token_syntaxifiers.c parser/tokenizers/token_mergers.c
-ENV_SRC = env_tools/env_crud.c env_tools/env_store.c
+
+
+PARSER_SRC = parser.c
+TOKENIZER_SRC = token_expanders.c token_splitters.c tokenizer.c token_syntaxifiers.c token_mergers.c token_destructor.c
+CMD_BUILDER_SRC = command_builders.c command_bhelpers.c command_destructor.c
+
+
+PARSING_SRC = $(patsubst %.c,parser/%.c,$(PARSER_SRC)) $(patsubst %.c,parser/tokenizers/%.c,$(TOKENIZER_SRC)) $(patsubst %.c,parser/command_builders/%.c,$(CMD_BUILDER_SRC))
+
+ENV_FILES = env_crud.c env_store.c
+ENV_SRC = $(patsubst %.c,env_tools/%.c,$(ENV_FILES))
+
+
 BUILTINS_SRC = 
 EXECUTION_SRC =
 
 SRC = main.c $(PARSING_SRC) $(ENV_SRC) $(BUILTINS_SRC) $(EXECUTION_SRC)
+
 
 OBJS = $(patsubst %.c,%.o,$(SRC))
 DEPS = $(patsubst %.c,%.d,$(SRC))

@@ -6,12 +6,14 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:13 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/21 15:15:48 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/09 16:02:11 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_tokenizers.h"
+#include "_token_splitters.h"
 
+/// @brief return the lenght of redirection token
+///        0 if not a redirection
 int	is_redirection(char *line)
 {
 	if (*line == '|')
@@ -25,12 +27,15 @@ int	is_redirection(char *line)
 	return (0);
 }
 
+/// @brief function that split the line into tokens 
+/// @param line line to split
+/// @param subtok if true, will split by spaces only, ignoring other characters
 t_token	*tokenizer(char *line, bool subtok)
 {
 	t_token	*tokens;
 	int		skip;
 
-	tokens = 0;
+	tokens = (void *)0;
 	while (line && *line)
 	{
 		skip = 1;
