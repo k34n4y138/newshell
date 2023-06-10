@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:14:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 17:17:36 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/10 19:52:19 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,15 @@ void	replace_token(t_token	*tkn, t_token *new_token)
 t_token	*aux_handle_vartok(t_token	*token)
 {
 	token->type = TOK_LITERAL;
-	if (token->prev && token->prev->type & TOK_HRDC)
+	if (token->prev
+		&& (token->prev->type == TOK_HRDC
+			|| (token->prev->type == TOK_LITERAL && !token->prev->space_after
+				&& token->prev->prev && token->prev->prev->type == TOK_HRDC)
+		)
+	)
 	{
 		token->token = ft_strdup(token->raw);
-		return (token);
+		return (token->prev);
 	}
 	token->token = expand_line(token->raw);
 	if (token->prev
