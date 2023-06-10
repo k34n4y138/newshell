@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:29:53 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 20:26:15 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/10 15:24:04 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	destroy_commands(t_command	*cmd)
 	char		*fargv;
 	t_command	*trgt;
 
-	while (cmd->prev)
+	while (cmd && cmd->prev)
 		cmd = cmd->prev;
 	while (cmd)
 	{

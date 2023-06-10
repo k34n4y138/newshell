@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:27 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 16:20:16 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/10 15:46:38 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ int	split_dollar(char	*line, t_token **tokens)
 	t_token	*tkn;
 
 	tkn = ft_calloc(1, sizeof(t_token));
-	while (line[tkn->len] == '$'
-		|| line[tkn->len] == '_' || ft_isalnum(line[tkn->len]))
+	tkn->len = 1;
+	while (line[tkn->len] == '_' || ft_isalnum(line[tkn->len]))
 			tkn->len++;
+	if (line[1] == '?')
+		tkn->len = 2;
 	tkn->raw = ft_substr(line, 0, tkn->len);
 	if (line[tkn->len] == ' ')
 		tkn->space_after = true;

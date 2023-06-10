@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:55 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/05/16 20:38:58 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/10 15:36:27 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,8 @@ int		env_update(char *key, char *value);
 /// @brief Delete the key=value pair from the env
 /// @return 0 if the key exists, 1 otherwise
 int		env_delete(char *key);
+
+/// @brief returns the exit status of the last command
+int env_exit_status(int status, int set);
+
 #endif

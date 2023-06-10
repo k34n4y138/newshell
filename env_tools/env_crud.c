@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/08 17:36:10 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/10 15:40:05 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*env_lookup(char *key)
 	int		i;
 	int		keylen;
 
+	if (ft_strncmp(key, "?", 2) == 0)
+		return (ft_itoa(env_exit_status(0, 0)));
 	env = *env_store(0);
 	i = 0;
 	keylen = ft_strlen(key);

@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 21:44:38 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/10 15:23:10 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	main(int argc, char **argv, char **environ)
 		line = readline("minishell >");
 		if (!line)
 			break ;
-		cmd = parse_command(line);
 		add_history(line);
+		cmd = parse_command(line);
 		print_command(cmd);
 		destroy_commands(cmd);
 		free(line);
