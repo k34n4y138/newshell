@@ -65,7 +65,7 @@ t_token	*new_command(t_token *token, t_command **chain)
 	{
 		if (token->type & TOK_REDIRS)
 			token = handle_redirection(token, com);
-		else
+		else if (!token->skip_expand)
 			com->argv[com->argc++] = ft_strdup(token->token);
 		token = token->next;
 	}

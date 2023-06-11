@@ -36,6 +36,7 @@ typedef struct token
 	char				*token;
 	int					type;
 	bool				space_after;
+	bool				skip_expand;
 	int					len;
 	struct token		*next;
 	struct token		*prev;

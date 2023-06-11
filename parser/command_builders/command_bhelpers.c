@@ -21,7 +21,7 @@ int	calc_argc(t_token *token)
 	{
 		if (token->type & TOK_REDIRS)
 			token = token->next;
-		else
+		else if (!token->skip_expand)
 			count++;
 		token = token->next;
 	}

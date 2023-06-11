@@ -40,7 +40,10 @@ void	replace_token(t_token	*tkn, t_token *new_token)
 	t_token	*traveler;
 
 	if (!new_token)
+	{
+		tkn->skip_expand = true;
 		return ;
+	}
 	free(tkn->raw);
 	free(tkn->token);
 	traveler = new_token;
@@ -100,6 +103,7 @@ t_token	*aux_merge_next(t_token *token)
 	token->next = token->next->next;
 	free(tmp->raw);
 	free(tmp);
+	token->skip_expand = false;
 	if (token->next)
 		token->next->prev = token;
 	return (token);
