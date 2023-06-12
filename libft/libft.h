@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 14:55:36 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/04/11 15:11:52 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/12 22:41:24 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,6 @@ char	*get_next_line(int fd);
 char	*ft_strndup(char *str, int from, int to);
 char	*ft_strtok(char *str, char *tokens);
 char	*ft_strjoin_free(char *s1, char *s2, int f1, int f2);
+void	ft_freecharlist(char **list);
+int		ft_strcmp(char *s1, char *s2);
 #endif

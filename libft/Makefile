@@ -49,7 +49,9 @@ SRCS	=	ft_atoi.c \
 			ft_printf_fd/ft_aux_printf.c \
 			ft_strjoin_free.c \
 			ft_strtok.c \
-			ft_strndup.c 
+			ft_strndup.c \
+			ft_freecharlist.c \
+			ft_strcmp.c
 
 OBJS	=	$(patsubst %.c,%.o,$(SRCS))
 
