@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:56:35 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 15:33:58 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:05:40 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ enum	e_redirection
 	REDIR_PIPEOUT = 0x20,
 };
 
-
-
-
 /// @brief redirection structure
 ///		-# type: redirection type
 ///		-# file: file name or hrdc delimiter
@@ -40,7 +37,6 @@ typedef struct redirect
 	struct redirect	*next;
 	struct redirect	*prev;
 }	t_redirection;
-
 
 /// @brief commandchain structure
 ///		-# argc: number of arguments
