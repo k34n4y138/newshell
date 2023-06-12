@@ -42,7 +42,8 @@ $(NAME): $(LIBFT) $(OBJS)
 
 
 $(LIBFT):
-	@$(MAKE) -C libft> /dev/null
+	@ make -C libft> /dev/null
+	@ make -C libft clean> /dev/null
 	@echo "Compiling libft"
 
 clean:
