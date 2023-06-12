@@ -6,29 +6,50 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:42 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 15:35:37 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:02:45 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
+#include "env_manager.h"
 
-char	***env_store(int destroy)
+t_envirun	**env_store(int destroy)
 {
-	static char	**env = NULL;
-	int			i;
+	static t_envirun	*env = NULL;
 
-	i = 0;
 	if (destroy && env)
 	{
-		while (env[i])
+		while (env)
 		{
-			free(env[i]);
-			i++;
+			free(env->key);
+			free(env->value);
+			free(env);
+			env = env->next;
 		}
-		free(env);
-		env = NULL;
 	}
 	return (&env);
+}
+
+void	env_init(char	**initenv)
+{
+	t_envirun	**env;
+	t_envirun	*traverser;
+	t_envirun	*tmp;
+
+	env = env_store(0);
+	traverser = *env;
+	while (initenv && *initenv)
+	{
+		tmp = ft_calloc(sizeof(t_envirun), 1);
+		tmp->key = ft_strtok(*initenv, "=");
+		tmp->value = ft_strtok(NULL, "=");
+		if (!traverser)
+			*env = tmp;
+		else
+			traverser->next = tmp;
+		traverser = tmp;
+		initenv++;
+	}
 }
 
 int	env_exit_status(int status, int set)
@@ -40,28 +61,7 @@ int	env_exit_status(int status, int set)
 	return (exit_status);
 }
 
-char	**env_init(char **initenv)
-{
-	char	**env;
-	int		i;
-	int		size;
-
-	size = 0;
-	while (initenv[size])
-		size++;
-	i = 0;
-	env = ft_calloc(sizeof(char *), size + 1);
-	while (i < size)
-	{
-		env[i] = ft_strdup(initenv[i]);
-		i++;
-	}
-	env[i] = NULL;
-	*env_store(0) = env;
-	return (env + 1);
-}
-
-void	env_destroy(void)
+void	senv_destroy(void)
 {
 	env_store(1);
 }

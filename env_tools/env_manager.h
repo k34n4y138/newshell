@@ -6,36 +6,46 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:55 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 15:36:27 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:26:48 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_MANAGER_H
 # define ENV_MANAGER_H
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_envirun;
+
 /// @brief internal function to store the environment
-char	***env_store(int destroy);
+t_envirun	**env_store(int destroy);
 
 /// @brief initialize the environment
-char	**env_init(char **initenv);
+void		env_init(char **initenv);
 
 /// @brief destroy the environment
-void	env_destroy(void);
+void		env_destroy(void);
 
 /// @brief returns the value of the key if it exists, NULL otherwise
-char	*env_lookup(char *key);
+char		*env_lookup(char *key);
 
 /// @brief insert a new key=value pair to the env
-int		env_insert(char *key, char *value);
+int			env_insert(char *key, char *value);
 
 /// @brief update the value of the key if it exists, insert it otherwise
-int		env_update(char *key, char *value);
+int			env_update(char *key, char *value);
 
 /// @brief Delete the key=value pair from the env
 /// @return 0 if the key exists, 1 otherwise
-int		env_delete(char *key);
+int			env_delete(char *key);
 
 /// @brief returns the exit status of the last command
-int env_exit_status(int status, int set);
+int			env_exit_status(int status, int set);
+
+/// @brief returns the environment as a char **
+char		**env_export(void);
 
 #endif

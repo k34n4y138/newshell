@@ -6,108 +6,116 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 15:40:05 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/13 00:25:08 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_manager.h"
 #include "../libft/libft.h"
 
-int	env_insert(char *key, char *value)
+int	env_insert(char	*key, char *value)
 {
-	char	***env;
-	char	**new_env;
-	char	*new_value;
-	int		envsize;
+	t_envirun	**env;
+	t_envirun	*traverser;
+	t_envirun	*new_env;
 
 	env = env_store(0);
-	envsize = 0;
-	new_value = ft_strjoin_free(ft_strjoin(key, "="), value, 1, 0);
-	while (env[0][envsize])
-		envsize++;
-	new_env = ft_calloc(sizeof(char *), envsize + 2);
-	ft_memcpy(new_env, *env, sizeof(char *) * envsize);
-	new_env[envsize] = new_value;
-	free(*env);
-	*env = new_env;
-	return (0);
-}
-
-int	keycmp(char *env, char *key)
-{
-	int	keylen;
-
-	keylen = ft_strlen(key);
-	if (ft_strncmp(env, key, keylen) == 0 && env[keylen] == '=')
-		return (1);
+	new_env = ft_calloc(sizeof(t_envirun), 1);
+	new_env->key = ft_strdup(key);
+	new_env->value = ft_strdup(value);
+	if (!*env)
+		*env = new_env;
+	else
+	{
+		traverser = *env;
+		while (traverser->next)
+			traverser = traverser->next;
+		traverser->next = new_env;
+	}
 	return (0);
 }
 
 char	*env_lookup(char *key)
 {
-	char	**env;
-	int		i;
-	int		keylen;
+	t_envirun	*env;
 
-	if (ft_strncmp(key, "?", 2) == 0)
-		return (ft_itoa(env_exit_status(0, 0)));
 	env = *env_store(0);
-	i = 0;
-	keylen = ft_strlen(key);
-	while (env[i])
+	while (env)
 	{
-		if (keycmp(env[i], key))
-			return (env[i] + keylen + 1);
-		i++;
+		if (ft_strcmp(env->key, key) == 0)
+			return (env->value);
+		env = env->next;
 	}
 	return ("");
 }
 
-int	env_update(char *key, char *value)
+int	env_update(char	*key, char	*value)
 {
-	char	**env;
-	char	*new_value;
+	t_envirun	*env;
 
 	env = *env_store(0);
-	while (*env)
+	while (env)
 	{
-		if (keycmp(*env, key))
+		if (ft_strcmp(env->key, key) == 0)
 		{
-			new_value = ft_strjoin_free(ft_strjoin(key, "="), value, 1, 0);
-			free(*env);
-			*env = new_value;
+			free(env->value);
+			env->value = ft_strdup(value);
 			return (0);
 		}
-		env++;
+		env = env->next;
 	}
 	env_insert(key, value);
 	return (1);
 }
 
-int	env_delete(char *key)
+int	env_delete(char	*key)
 {
-	int		envsize;
-	int		newenvsize;
-	char	***env;
-	char	**new_env;
+	t_envirun	*crnt;
+	t_envirun	*prev;
 
-	if (env_lookup(key) == NULL)
-		return (1);
-	env = env_store(0);
-	envsize = 0;
-	while (env[0][envsize])
-		envsize++;
-	new_env = ft_calloc(sizeof(char *), envsize);
-	envsize = 0;
-	newenvsize = 0;
-	while (env[0][envsize])
+	crnt = *env_store(0);
+	prev = NULL;
+	while (crnt)
 	{
-		if (keycmp(env[0][envsize], key))
-			new_env[newenvsize++] = env[0][envsize++];
-		else
-			free(env[0][envsize++]);
+		if (!ft_strcmp(crnt->key, key))
+		{
+			if (prev)
+				prev->next = crnt->next;
+			else
+				*env_store(0) = crnt->next;
+			free(crnt->key);
+			free(crnt->value);
+			free(crnt);
+			return (0);
+		}
+		prev = crnt;
+		crnt = crnt->next;
 	}
-	free(*env);
-	*env = new_env;
-	return (0);
+	return (-1);
+}
+
+char	**env_export(void)
+{
+	t_envirun	*env;
+	char		**export;
+	int			i;
+
+	env = *env_store(0);
+	i = 0;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	export = ft_calloc(sizeof(char *), i + 1);
+	i = 0;
+	env = *env_store(0);
+	while (env)
+	{
+		export[i] = ft_strjoin(env->key, "=");
+		export[i] = ft_strjoin_free(export[i], env->value, 1, 0);
+		i++;
+		env = env->next;
+	}
+	return (export);
 }
