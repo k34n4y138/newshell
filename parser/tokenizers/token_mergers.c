@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:14:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 19:52:19 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/12 23:24:04 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	replace_token(t_token	*tkn, t_token *new_token)
 	traveler->next = tkn->next;
 	traveler->space_after = tkn->space_after;
 	*tkn = *new_token;
+	free(new_token);
 }
 
 /// @brief aux function to handle variable tokens
