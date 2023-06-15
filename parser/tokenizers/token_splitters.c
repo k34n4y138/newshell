@@ -43,7 +43,7 @@ int	split_quote(char	*line, char qt, t_token **tokens)
 	if (line[tkn->len])
 		tkn->len++;
 	tkn->raw = ft_substr(line, 0, tkn->len);
-	if (line[tkn->len] == ' ')
+	if (ft_strchr(" \t", tkn->raw[tkn->len]))
 		tkn->space_after = true;
 	tkn->type = TOK_SNGQ;
 	if (qt == '"')
