@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/13 00:25:08 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/14 22:30:52 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	env_insert(char	*key, char *value)
 	env = env_store(0);
 	new_env = ft_calloc(sizeof(t_envirun), 1);
 	new_env->key = ft_strdup(key);
-	new_env->value = ft_strdup(value);
+	if (value)
+		new_env->value = ft_strdup(value);
 	if (!*env)
 		*env = new_env;
 	else
