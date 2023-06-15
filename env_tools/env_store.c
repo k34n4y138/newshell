@@ -41,8 +41,9 @@ void	env_init(char	**initenv)
 	while (initenv && *initenv)
 	{
 		tmp = ft_calloc(sizeof(t_envirun), 1);
-		tmp->key = ft_strtok(*initenv, "=");
-		tmp->value = ft_strtok(NULL, "=");
+		tmp->value = ft_strdup(ft_strchr(*initenv, '=') + 1);
+		tmp->key = ft_substr(*initenv, 0,
+				ft_strlen(*initenv) - ft_strlen(tmp->value) - 1);
 		if (!traverser)
 			*env = tmp;
 		else
