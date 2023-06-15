@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:21:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 17:25:54 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/15 18:35:27 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,3 @@ void	expand_literal_tokens(t_token	*token)
 		token = token->next;
 	}
 }
-
-
-/// bash command to find only .c and .h files 
-/// find . -type f -name "*.c" -o -name "*.h"
-/// execute cat on all files found
-/// find . -type f -name "*.c" -o -name "*.h" -exec cat {} \;
-/// count lines of all files found 
-/// find . -type f -name "*.c" -o -name "*.h" -exec cat {} \; | wc -l
