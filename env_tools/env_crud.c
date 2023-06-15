@@ -49,7 +49,7 @@ char	*env_lookup(char *key)
 	return ("");
 }
 
-int	env_update(char	*key, char	*value)
+int	env_update(char	*key, char	*value, int create)
 {
 	t_envirun	*env;
 
@@ -58,13 +58,17 @@ int	env_update(char	*key, char	*value)
 	{
 		if (ft_strcmp(env->key, key) == 0)
 		{
-			free(env->value);
-			env->value = ft_strdup(value);
+			if (value)
+			{
+				free(env->value);
+				env->value = ft_strdup(value);
+			}
 			return (0);
 		}
 		env = env->next;
 	}
-	env_insert(key, value);
+	if (create)
+		env_insert(key, value);
 	return (1);
 }
 

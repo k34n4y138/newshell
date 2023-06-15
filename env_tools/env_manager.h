@@ -36,7 +36,7 @@ char		*env_lookup(char *key);
 int			env_insert(char *key, char *value);
 
 /// @brief update the value of the key if it exists, insert it otherwise
-int			env_update(char *key, char *value);
+int			env_update(char *key, char *value, int create);
 
 /// @brief Delete the key=value pair from the env
 /// @return 0 if the key exists, 1 otherwise
