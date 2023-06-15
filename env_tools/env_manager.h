@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:55 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/13 00:26:48 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/15 11:34:54 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,6 @@ int			env_exit_status(int status, int set);
 /// @brief returns the environment as a char **
 char		**env_export(void);
 
+/// @brief check if the key is valid
+int			env_validate_key(char *key);
 #endif

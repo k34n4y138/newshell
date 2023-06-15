@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:42 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/13 00:02:45 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/15 18:32:36 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,20 @@ int	env_exit_status(int status, int set)
 void	senv_destroy(void)
 {
 	env_store(1);
+}
+
+int	env_validate_key(char *key)
+{
+	int	i;
+
+	if (!key || (!ft_isalpha(*key) && *key != '_'))
+		return (0);
+	i = 1;
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
