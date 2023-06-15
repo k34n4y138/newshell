@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:27 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 15:46:38 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/15 18:39:23 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	split_literal(char *line, t_token **tokens, bool subtok)
 	t_token	*tkn;
 	char	*match;
 
-	match = "'\"$<>| ";
+	match = "'\"$<>| \t";
 	if (subtok)
-		match = " ";
+		match = " \t";
 	tkn = ft_calloc(1, sizeof(t_token));
 	while (line[tkn->len] && !ft_strchr(match, line[tkn->len])
 	)
@@ -70,7 +70,7 @@ int	split_literal(char *line, t_token **tokens, bool subtok)
 	tkn->raw = ft_substr(line, 0, tkn->len);
 	if (subtok)
 		tkn->token = ft_strdup(tkn->raw);
-	if (line[tkn->len] == ' ')
+	if (ft_strchr(" \t", tkn->raw[tkn->len]))
 		tkn->space_after = true;
 	tkn->type = TOK_LITERAL;
 	append_token(tkn, tokens);
@@ -88,7 +88,7 @@ int	split_dollar(char	*line, t_token **tokens)
 	if (line[1] == '?')
 		tkn->len = 2;
 	tkn->raw = ft_substr(line, 0, tkn->len);
-	if (line[tkn->len] == ' ')
+	if (ft_strchr(" \t", tkn->raw[tkn->len]))
 		tkn->space_after = true;
 	tkn->type = TOK_VAR;
 	append_token(tkn, tokens);
@@ -113,7 +113,7 @@ int	split_redirection(char	*line, int toklen, t_token **tokens)
 		tkn->type = TOK_FILEIN;
 	else if (ft_strncmp(tkn->raw, ">", 1) == 0)
 		tkn->type = TOK_FILEOUT;
-	if (line[tkn->len] == ' ')
+	if (ft_strchr(" \t", tkn->raw[tkn->len]))
 		tkn->space_after = true;
 	tkn->token = ft_strdup(tkn->raw);
 	append_token(tkn, tokens);

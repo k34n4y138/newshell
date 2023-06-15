@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:13 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 16:02:11 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/14 22:57:27 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	*tokenizer(char *line, bool subtok)
 			skip = split_redirection(line, is_redirection(line), &tokens);
 		else if (!subtok && *line == '$')
 			skip = split_dollar(line, &tokens);
-		else if (*line != ' ')
+		else if (!ft_strchr(" \t", *line))
 			skip = split_literal(line, &tokens, subtok);
 		line = line + skip;
 	}
