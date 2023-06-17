@@ -6,11 +6,12 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:13 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/14 22:57:27 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/17 01:33:53 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_token_splitters.h"
+#include "../../libft/libft.h"
 
 /// @brief return the lenght of redirection token
 ///        0 if not a redirection
