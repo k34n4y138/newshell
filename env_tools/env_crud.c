@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/14 22:30:52 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/17 11:29:35 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,12 @@ char	**env_export(void)
 	env = *env_store(0);
 	while (env)
 	{
-		export[i] = ft_strjoin(env->key, "=");
-		export[i] = ft_strjoin_free(export[i], env->value, 1, 0);
-		i++;
+		if (!env->value)
+		{
+			export[i] = ft_strjoin(env->key, "=");
+			export[i] = ft_strjoin_free(export[i], env->value, 1, 0);
+			i++;
+		}
 		env = env->next;
 	}
 	return (export);
