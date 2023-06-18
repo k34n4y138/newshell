@@ -97,7 +97,6 @@ int	split_dollar(char	*line, t_token **tokens)
 
 int	split_redirection(char	*line, int toklen, t_token **tokens)
 {
-	char	*redirection;
 	t_token	*tkn;
 
 	tkn = ft_calloc(1, sizeof(t_token));
