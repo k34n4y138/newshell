@@ -1,6 +1,6 @@
 CC = clang #-fsanitize=address -g
 
-CFALGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 
 
@@ -30,29 +30,47 @@ DEPS = $(patsubst %.c,%.d,$(SRC))
 NAME = minishell
 LIBFT = libft/libft.a
 
+READLINE = readline/libreadline.a
+RDLN_VER = 8.2
+LBRDLN = -L./readline -lreadline  -lncurses
+
 all: $(NAME)
 
 -include $(DEPS)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFALGS) $(OBJS) $(LIBFT)  -o $(NAME) -lreadline
+$(NAME): $(READLINE) $(LIBFT) $(OBJS) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LBRDLN) -o $(NAME) 
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ -MMD
+	$(CC) $(CFLAGS) -I. -c  $< -o   $@ -MMD
 
 
 $(LIBFT):
+	@ echo "Compiling libft"
 	@ make -C libft> /dev/null
 	@ make -C libft clean> /dev/null
 	@echo "Compiling libft"
 
 clean:
-	@$(MAKE) -C libft fclean > /dev/null
-	@rm -f $(OBJS) $(DEPS)
-	@echo "Removing Objects and Dep files"
+	@ echo "Removing OBJS, Deps and libft"
+	@ $(MAKE) -C libft fclean > /dev/null
+	@ rm -f $(OBJS) $(DEPS)
+	@ rm -rf readline
 
 fclean: clean
-	@rm -f $(NAME)
-	@echo "Removing $(NAME)"
+	@ echo "Removing $(NAME) and readline"
+	@ rm -f $(NAME)
+	@ rm -f readline-$(RDLN_VER).tar.gz
 
-re: fclean all
+$(READLINE):
+	@ echo "Downloading readline"
+	@ curl https://ftp.gnu.org/gnu/readline/readline-$(RDLN_VER).tar.gz -o readline-$(RDLN_VER).tar.gz > /dev/null
+	@ echo "unpacking and compiling readline"
+	@ tar -xvf readline-$(RDLN_VER).tar.gz > /dev/null
+	@ mv readline-$(RDLN_VER) readline > /dev/null
+	@ cd readline && ./configure > /dev/null
+	@make -C readline > /dev/null
+
+readline: $(READLINE)
+
+re: fclean all readline
