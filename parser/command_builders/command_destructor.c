@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:29:53 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 15:24:04 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/18 01:54:11 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	destroy_redirections(t_redirection	*redirs)
 
 void	destroy_commands(t_command	*cmd)
 {
-	char		*fargv;
 	t_command	*trgt;
 
 	while (cmd && cmd->prev)
