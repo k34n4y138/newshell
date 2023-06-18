@@ -6,12 +6,13 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:56:35 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/18 01:28:34 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/18 01:32:00 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_COMMAND_H
 # define T_COMMAND_H
+# include <sys/types.h>
 
 /// @brief type mask for redirections
 enum	e_redirection
