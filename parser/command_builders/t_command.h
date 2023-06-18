@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:56:35 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/13 00:05:40 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/18 01:28:34 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ typedef struct redirect
 ///		-# _redirects: linked list of redirections
 typedef struct command
 {
+	pid_t			pid;
+	int				exit_status;
 	int				argc;
 	char			**argv;
+	char			**envp;
 	int				io[2];
 	int				redirs;
 	t_redirection	*_redirects;
