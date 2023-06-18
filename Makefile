@@ -16,7 +16,7 @@ BUILTINS_FILES = bltn_env.c bltn_export.c bltn_unset.c
 BUILTINS_SRC = $(patsubst %.c,executer/built_ins/%.c, $(BUILTINS_FILES))
 
 #====EXECUTION====#
-EXECUTION_FILES = 
+EXECUTION_FILES = exicution.c exicution/get_path.c
 EXECUTION_SRC = $(patsubst %.c,executer/%.c, $(EXECUTION_FILES)) 
 
 #====MAIN====#
@@ -42,7 +42,7 @@ all: $(NAME)
 
 $(NAME): $(READLINE) $(LIBFT) $(OBJS) 
 	@ echo "Compiling $(NAME)"
-	@ $(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LBRDLN) -o $(NAME)
+	@ $(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LBRDLN) executer/libft/libft.a executer/ft_printf/libftprintf.a -o $(NAME)
 
 
 %.o: %.c

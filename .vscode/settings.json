@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"t_command.h": "c",
+		"env_manager.h": "c",
+		"ft_printf.h": "c",
+		"stdarg.h": "c"
+	}
+}

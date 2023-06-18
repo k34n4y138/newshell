@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/10 15:23:10 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:48:59 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include "executer/exicution.h"
 #include "env_tools/env_manager.h"
 #include "parser/parser.h"
 #include <stdlib.h>
@@ -52,7 +52,8 @@ int	main(int argc, char **argv, char **environ)
 			break ;
 		add_history(line);
 		cmd = parse_command(line);
-		print_command(cmd);
+		// print_command(cmd);
+		exicution(cmd);
 		destroy_commands(cmd);
 		free(line);
 	}
