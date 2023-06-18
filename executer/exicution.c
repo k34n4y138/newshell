@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/18 18:39:15 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:58:27 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ t_redirection	*creat_out_file(t_command *cmd)
 {
 	t_redirection *last_out;
 	
+	last_out = NULL;
 	if (cmd->_redirects->type & REDIR_FILEOUT)
 	{
 		cmd->_redirects->fd = open(cmd->_redirects->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -235,36 +236,65 @@ void	handl_output(t_command *cmd)
 	}
 }
 
-// void	check_cmd(t_command *cmd)
-// {
-	// cmd->path = get_path(env_lookup("PATH"), );
-	// if (pip->av[cmd][0] == '/' || pip->av[cmd][0] == '.'
-	// 	|| (ft_strstr(pip->av[cmd], ".sh") && ft_strchr(pip->av[cmd], 47)))
-	// {
-	// 	pip->cmd = ft_split(pip->av[cmd], ' ');
-	// 	if (pip->cmd[0] == NULL)
-	// 		ft_printf("pipex: %s: command not found\n", pip->av[cmd]);
-	// 	if (pip->cmd[0][0] == '/' || pip->cmd[0][0] == '.')
-	// 		pip->path = get_path(pip, pip->cmd[0], 1);
-	// 	else
-	// 		pip->path = get_path(pip, pip->cmd[0], 0);
-	// }
-	// else
-	// {
-	// 	pip->cmd = ft_split(pip->av[cmd], ' ');
-	// 	if (pip->cmd[0] == NULL)
-	// 		ft_printf("pipex: %s: command not found\n", pip->av[cmd]);
-	// 	pip->path = get_path(pip, pip->cmd[0], 0);
-	// }
-// }
+int	is_empty(char *cmd)
+{
+	while (*cmd)
+	{
+		if (*cmd != 32 || *cmd != '\t')
+			return (0);
+		cmd++;
+	}
+	return (1);
+}
+
+char	*ft_strstr(char *str, char *to_find)
+{
+	int	i;
+
+	i = 0;
+	if (to_find[i] == '\0')
+		return (str);
+	while (str[i])
+	{
+		while (str[i] == to_find[i])
+		{
+			i++;
+			if (to_find[i] == '\0')
+				return (str);
+		}
+		str++;
+		i = 0;
+	}
+	return (0);
+}
+
+void	check_cmd(t_command *cmd)
+{
+	if (cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.'
+		|| (ft_strstr(cmd->argv[0], ".sh") && ft_strchr(cmd->argv[0], 47)))
+	{
+		if (is_empty(cmd->argv[0]))
+			ft_printf("pipex: %s: command not found\n", cmd->argv[0]);
+		if (cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.')
+			cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 1);
+		else
+			cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 0);
+	}
+	else
+	{
+		if (is_empty(cmd->argv[0]))
+			ft_printf("pipex: %s: command not found\n", cmd->argv[0]);
+		cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 0);
+	}
+}
 
 void start_execution(t_command *cmd)
 {
 	handl_output(cmd);
 	handl_input(cmd);
-	// check_cmd(cmd);
-	// cmd->path = get_path(env, cmd->argv[0], 0);
-	// execve(cmd->path, cmd->argv, env);
+	check_cmd(cmd);
+	cmd->envp = env_export();
+	execve(cmd->path, cmd->argv, cmd->envp);
 }
 
 void	wait_for_childs(t_command *cmd)
@@ -278,22 +308,25 @@ void	wait_for_childs(t_command *cmd)
 			perror("waitpid");
 			exit(EXIT_FAILURE);
 		}
+		cmd->exit_status = status >> 8;
 		cmd = cmd->next;
 	}
-	return (status >> 8);
 }
 
-void	exicution(t_command *cmd, char **env)
+void	exicution(t_command *cmd)
 {
 	t_command	*head;
 
 	head = cmd;
 	while (cmd)
 	{
-		if (cmd->next != NULL && pipe(cmd->pip) == -1)
+		if (cmd->next != NULL)
 		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
+			if (pipe(cmd->pip) == -1)
+			{
+				perror("minishell");
+				exit(EXIT_FAILURE);
+			}
 		}
 		cmd->pid = fork();
 		if (cmd->pid == -1)
@@ -305,6 +338,5 @@ void	exicution(t_command *cmd, char **env)
 			start_execution(cmd);
 		cmd = cmd->next;
 	}
-	return (wait_for_childs(head));
-	waitpid(head->pid, NULL, 0);
+	wait_for_childs(head);
 }

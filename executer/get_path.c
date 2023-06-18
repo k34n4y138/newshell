@@ -6,11 +6,17 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:20:53 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/18 18:17:55 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/18 19:50:36 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exicution.h"
+
+void print_error(char *msg, char *cmd)
+{
+	ft_printf("minishell: %s: %s\n", cmd, msg);
+	exit(127);
+}
 
 void	free_paths(char **paths)
 {
@@ -43,27 +49,6 @@ char	*check_p(char *cmd)
 	return (valid);
 }
 
-char	*check_env(char **env)
-{
-	char	*path;
-	int		i;
-
-	i = 0;
-	path = NULL;
-	while (env[i])
-	{
-		if (ft_strnstr(env[i], "PATH=", 5))
-		{
-			path = ft_strdup(ft_strchr(env[i], '=') + 1);
-			break ;
-		}
-		i++;
-	}
-	if (!path)
-		path = ft_strdup(PATH);
-	return (path);
-}
-
 char	*get_valid_path(char *path, char *cmd0)
 {
 	char	**paths;
@@ -94,30 +79,24 @@ char	*get_valid_path(char *path, char *cmd0)
 }
 
 
-char	*get_path(char **env, char *cmd0, int status)
+char	*get_path(char *path, char *cmd0, int status)
 {
-	char	*path;
 	char	*valid_path;
 
 	valid_path = NULL;
+	if (!path)
+		print_error("No such file or directory", cmd0);
 	if (status == 0)
 	{
-		path = check_env(env);
 		valid_path = get_valid_path(path, cmd0);
 		if (!valid_path)
-		{
-			ft_printf("minishell: %s: command not found\n", cmd0);
-			exit(127);
-		}	
+			print_error("command not found", cmd0);
 	}
 	else if (status == 1)
 	{
 		valid_path = check_p(cmd0);
 		if (!valid_path)
-		{
-			ft_printf("minishell: %s: no such file or directory\n", cmd0);
-			exit(127);
-		}
+			print_error("No such file or directory", cmd0);
 	}
 	return (valid_path);
 }

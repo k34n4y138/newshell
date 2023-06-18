@@ -16,7 +16,7 @@ BUILTINS_FILES = bltn_env.c bltn_export.c bltn_unset.c
 BUILTINS_SRC = $(patsubst %.c,executer/built_ins/%.c, $(BUILTINS_FILES))
 
 #====EXECUTION====#
-EXECUTION_FILES = exicution.c exicution/get_path.c
+EXECUTION_FILES = exicution.c get_path.c
 EXECUTION_SRC = $(patsubst %.c,executer/%.c, $(EXECUTION_FILES)) 
 
 #====MAIN====#
