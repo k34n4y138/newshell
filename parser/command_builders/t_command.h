@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_command.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:56:35 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/18 01:32:00 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/18 18:37:44 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ typedef struct command
 	int				argc;
 	char			**argv;
 	char			**envp;
-	int				io[2];
+	char			*path;
+	int				pip[2];
 	int				redirs;
 	t_redirection	*_redirects;
 	struct command	*next;
