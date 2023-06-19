@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 22:58:31 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:53:51 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	read_lin(t_redirection *redirect)
 	while (1)
 	{
 		read_2 = readline("> ");
+		// TODO: if (!(redirect->type & HRDC_NO_EXPAND))
 		read = expand_line(read_2);
 		free(read_2);
 		if (!read || ft_strnstr_1(read, redirect->file,

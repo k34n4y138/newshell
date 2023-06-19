@@ -6,11 +6,19 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:19:43 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 22:58:26 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:52:08 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+// function is defined in parser/tokenizer/token_expanders.c
+// char	*expand_line(char *line);
+// TODO: expand filename
+// char	*filename = expand_line(redirect->file);
+// TODO: check if check_if_ambigous
+// if (redirect->type & FILE_CHECK_AMBIGOUS && ft_strchr(filename, ' '))
+// 		ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", redirect->file);
 
 t_redirection	*check_last_input_file(t_command *cmd)
 {
