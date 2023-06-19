@@ -70,7 +70,7 @@ int	split_literal(char *line, t_token **tokens, bool subtok)
 	tkn->raw = ft_substr(line, 0, tkn->len);
 	if (subtok)
 		tkn->token = ft_strdup(tkn->raw);
-	if (ft_strchr(" \t", tkn->raw[tkn->len]))
+	if (ft_strchr(" \t", line[tkn->len]))
 		tkn->space_after = true;
 	tkn->type = TOK_LITERAL;
 	append_token(tkn, tokens);
