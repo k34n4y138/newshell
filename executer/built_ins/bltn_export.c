@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltn_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:15:12 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/17 01:54:51 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/19 09:11:32 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_args(t_command *cmd)
 	}
 }
 
-int	add_env(char	*line, int set)
+int	add_env(char *line, int set)
 {
 	char	*key;
 	char	*value;

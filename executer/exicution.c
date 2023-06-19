@@ -6,11 +6,12 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/18 19:58:27 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 12:47:55 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exicution.h"
+char    *expand_line(char *line);
 
 void	exit_file(char *file_name)
 {
@@ -47,53 +48,59 @@ char	*ft_strnstr_1(char *str, char *to_find, int len)
 
 void	read_herdoc(t_command *cmd)
 {
+	t_redirection *redirect;
 	char *read;
 	
-	while (cmd->_redirects)
+	redirect = cmd->_redirects;
+	while (redirect)
 	{
-		if (cmd->_redirects->type & REDIR_HEREDOC)
+		if (redirect->type & REDIR_HEREDOC)
 		{
-			cmd->_redirects->fd = open(".stor_herdoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			redirect->fd = open(".stor_herdoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			while (1)
 			{
 				read = readline("> ");
-				if (!read || ft_strnstr_1(read, cmd->_redirects->file, ft_strlen(cmd->_redirects->file)))
+				if (!read || ft_strnstr_1(read, redirect->file, ft_strlen(redirect->file)))
 				{
 					free(read);
 					break ;
 				}
-				ft_putstr_fd(read, cmd->_redirects->fd);
-				write(cmd->_redirects->fd, "\n", 1);
+				ft_putstr_fd(read, redirect->fd);
+				write(redirect->fd, "\n", 1);
 				free(read);
 			}
-			close(cmd->_redirects->fd);
+			close(redirect->fd);
 		}
-		cmd->_redirects = cmd->_redirects->next;
+		redirect = redirect->next;
 	}
 }
 
 t_redirection	*check_last_input_file(t_command *cmd)
 {
 	t_redirection *last_infile;
+	t_redirection *redirect;
 	
-	while (cmd->_redirects)
+	redirect = cmd->_redirects;
+	while (redirect)
 	{
-		if (cmd->_redirects->type & REDIR_FILEIN)
-			last_infile = cmd->_redirects;
-		cmd->_redirects = cmd->_redirects->next;
+		if (redirect->type & REDIR_FILEIN)
+			last_infile = redirect;
+		redirect = redirect->next;
 	}
 	return (last_infile);
 }
 
-int	wish_last_input(t_command *cmd)
+int	which_last_input(t_command *cmd)
 {
 	int	last_in;
-	
-	while (cmd->_redirects)
+	t_redirection	*redirs;
+
+	redirs = cmd->_redirects;
+	while (redirs)
 	{
-		if (cmd->_redirects->type & (REDIR_FILEIN | REDIR_HEREDOC))
-			last_in = cmd->_redirects->type;
-		cmd->_redirects = cmd->_redirects->next;			
+		if (redirs->type & (REDIR_FILEIN | REDIR_HEREDOC))
+			last_in = redirs->type;
+		redirs = redirs->next;			
 	}
 	if (last_in & REDIR_FILEIN)
 		return (REDIR_FILEIN);
@@ -103,15 +110,15 @@ int	wish_last_input(t_command *cmd)
 void	dup_in_file(t_command *cmd)
 {
 	t_redirection *last_in_file;
-
+	
 	last_in_file = check_last_input_file(cmd);
-	last_in_file->fd = open(cmd->_redirects->file, O_RDONLY, 0644);
+	last_in_file->fd = open(last_in_file->file, O_RDONLY, 0644);
 	if (last_in_file->fd == -1)
 		exit_file(last_in_file->file);
-	if (cmd->redirs & REDIR_PIPEIN)
-		close(cmd->prev->pip[READ_END]);
 	dup2(last_in_file->fd, STDIN_FILENO);
 	close(last_in_file->fd);
+	if (cmd->redirs & REDIR_PIPEIN)
+		close(cmd->prev->pip[READ_END]);
 }
 
 void	dup_herdoc(t_command *cmd)
@@ -129,17 +136,19 @@ void	dup_herdoc(t_command *cmd)
 
 void	check_infile(t_command *cmd)
 {
-
-	while (cmd->_redirects)
+	t_redirection *redirect;
+	
+	redirect = cmd->_redirects;
+	while (redirect)
 	{
-		if (cmd->_redirects->type & REDIR_FILEIN)
+		if (redirect->type & REDIR_FILEIN)
 		{
-			cmd->_redirects->fd = open(cmd->_redirects->file, O_RDONLY, 0644);
-			if (cmd->_redirects->fd == -1)
-				exit_file(cmd->_redirects->file);
-			close(cmd->_redirects->fd);
+			redirect->fd = open(redirect->file, O_RDONLY, 0644);
+			if (redirect->fd == -1)
+				exit_file(redirect->file);
+			close(redirect->fd);
 		}
-		cmd->_redirects = cmd->_redirects->next;
+		redirect = redirect->next;
 	}
 }
 
@@ -151,7 +160,7 @@ void	handl_input(t_command *cmd)
 			read_herdoc(cmd);
 		if (cmd->redirs & REDIR_FILEIN)
 			check_infile(cmd);
-		if (wish_last_input(cmd) & REDIR_FILEIN)
+		if (which_last_input(cmd) & REDIR_FILEIN)
 			dup_in_file(cmd);
 		else
 			dup_herdoc(cmd);
@@ -160,30 +169,29 @@ void	handl_input(t_command *cmd)
 	{
 		dup2(cmd->prev->pip[READ_END], STDIN_FILENO);
 		close(cmd->prev->pip[READ_END]);
-		close(cmd->pip[READ_END]);
 	}
 }
 
-t_redirection	*creat_out_file(t_command *cmd)
+t_redirection	*creat_out_file(t_redirection *redirect)
 {
 	t_redirection *last_out;
 	
 	last_out = NULL;
-	if (cmd->_redirects->type & REDIR_FILEOUT)
+	if (redirect->type & REDIR_FILEOUT)
 	{
-		cmd->_redirects->fd = open(cmd->_redirects->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (cmd->_redirects->fd == -1)
-			exit_file(cmd->_redirects->file);
-		last_out = cmd->_redirects;
-		close(cmd->_redirects->fd);
+		redirect->fd = open(redirect->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (redirect->fd == -1)
+			exit_file(redirect->file);
+		last_out = redirect;
+		close(redirect->fd);
 	}
-	else if (cmd->_redirects->type & REDIR_FILEAPND)
+	else if (redirect->type & REDIR_FILEAPND)
 	{
-		cmd->_redirects->fd = open(cmd->_redirects->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (cmd->_redirects->fd == -1)
-			exit_file(cmd->_redirects->file);
-		last_out = cmd->_redirects;
-		close(cmd->_redirects->fd);
+		redirect->fd = open(redirect->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (redirect->fd == -1)
+			exit_file(redirect->file);
+		last_out = redirect;
+		close(redirect->fd);
 	}
 	return (last_out);
 }
@@ -213,19 +221,21 @@ void	handl_out_file(t_command *cmd, t_redirection *last_out)
 void	handl_output(t_command *cmd)
 {
 	t_redirection *last_out;
+	t_redirection *redirect;
 	
+	redirect = cmd->_redirects;
 	if (cmd->redirs & (REDIR_FILEOUT | REDIR_FILEAPND))
 	{
-		while (cmd->_redirects)
+		while (redirect)
 		{
-			if (cmd->_redirects->type & REDIR_FILEIN)
+			if (redirect->type & REDIR_FILEIN)
 			{
-				if (access(cmd->_redirects->file, F_OK) == -1)
+				if (access(redirect->file, F_OK) == -1)
 					break ;
-				cmd->_redirects = cmd->_redirects->next;
+				redirect = redirect->next;
 			}
-			last_out = creat_out_file(cmd);
-			cmd->_redirects = cmd->_redirects->next;
+			last_out = creat_out_file(redirect);
+			redirect = redirect->next;
 		}
 		handl_out_file(cmd, last_out);
 	}
@@ -274,7 +284,7 @@ void	check_cmd(t_command *cmd)
 		|| (ft_strstr(cmd->argv[0], ".sh") && ft_strchr(cmd->argv[0], 47)))
 	{
 		if (is_empty(cmd->argv[0]))
-			ft_printf("pipex: %s: command not found\n", cmd->argv[0]);
+			ft_printf("minishell: %s: command not found\n", cmd->argv[0]);
 		if (cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.')
 			cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 1);
 		else
@@ -283,7 +293,7 @@ void	check_cmd(t_command *cmd)
 	else
 	{
 		if (is_empty(cmd->argv[0]))
-			ft_printf("pipex: %s: command not found\n", cmd->argv[0]);
+			ft_printf("minishell: %s: command not found\n", cmd->argv[0]);
 		cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 0);
 	}
 }
@@ -313,6 +323,16 @@ void	wait_for_childs(t_command *cmd)
 	}
 }
 
+void	close_prev_pip(t_command *cmd)
+{
+	if (cmd->next != NULL && (cmd->redirs & (REDIR_PIPEIN | REDIR_PIPEOUT)))
+	{
+		close(cmd->pip[WRITE_END]);
+		if (cmd->prev != NULL)
+			close(cmd->prev->pip[READ_END]);
+	}
+}
+
 void	exicution(t_command *cmd)
 {
 	t_command	*head;
@@ -336,6 +356,8 @@ void	exicution(t_command *cmd)
 		}
 		else if (cmd->pid == 0)
 			start_execution(cmd);
+		close_prev_pip(cmd);
+		// close(cmd->pip[WRITE_END]);
 		cmd = cmd->next;
 	}
 	wait_for_childs(head);

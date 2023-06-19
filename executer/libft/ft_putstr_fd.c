@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 18:04:18 by yowazga           #+#    #+#             */
-/*   Updated: 2023/02/04 16:17:14 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 11:12:31 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,4 @@ void	ft_putstr_fd(char *s, int fd)
 	{
 		write(fd, s, ft_strlen(s));
 	}
-	return ;
 }

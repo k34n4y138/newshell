@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:20:53 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/18 19:50:36 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 12:06:40 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,10 @@ char	*get_valid_path(char *path, char *cmd0)
 			break ;
 		}
 	}
-	free(path);
+	// free(path);
 	free_paths(paths);
 	return (valid);
 }
-
 
 char	*get_path(char *path, char *cmd0, int status)
 {
