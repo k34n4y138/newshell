@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   t_command.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:56:35 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/18 18:37:44 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:33:26 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_COMMAND_H
 # define T_COMMAND_H
 # include <sys/types.h>
+
+// 0x10 TOK_VAR
+// 0x20 0x40 TOK_DBLQ TOK_SNGQ
 
 /// @brief type mask for redirections
 enum	e_redirection
@@ -22,8 +25,10 @@ enum	e_redirection
 	REDIR_FILEIN = 0x100,
 	REDIR_FILEOUT = 0x200,
 	REDIR_FILEAPND = 0x400,
-	REDIR_PIPEIN = 0x10,
-	REDIR_PIPEOUT = 0x20,
+	FILE_CHECK_AMBIGOUS = 0x10,
+	HRDC_NO_EXPAND = 0x20 | 0x40,
+	REDIR_PIPEIN = 0x800,
+	REDIR_PIPEOUT = 0x1000,
 };
 
 /// @brief redirection structure

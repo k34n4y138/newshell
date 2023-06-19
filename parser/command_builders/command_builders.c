@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:10:41 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 20:24:06 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:29:39 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token	*handle_redirection(t_token *token, t_command	*com)
 	t_redirection	*redir;
 
 	redir = ft_calloc(1, sizeof(t_redirection));
-	redir->type = token->type;
+	redir->type = token->type | token->next->type;
 	redir->file = ft_strdup(token->next->token);
 	com->redirs |= token->type;
 	append_redir(redir, com);

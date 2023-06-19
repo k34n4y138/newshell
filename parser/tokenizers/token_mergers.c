@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:14:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 13:24:53 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:21:21 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_bltn_export_context(t_token	*token)
 {
 	while (token && token->type != TOK_PIPE)
 	{
-		if (token->type == TOK_LITERAL
+		if (token->type & TOK_LITERAL
 			&& !ft_strncmp(token->token, "export", 6)
 			&& (
 				!token->prev
@@ -58,18 +58,18 @@ void	replace_token(t_token	*tkn, t_token *new_token)
 
 /// @brief aux function to handle variable tokens
 ///		   normally variable tokens are expanded and subtokenized
-///        variable tokens won't be expanded if prev is HRDC
+///        variable tokens won't be expanded if prev is a redir of any type
 ///        variable tokens won't be subtokenized if in context of export
 ///        or next token is a literal "$" without space or 
 ///  export context is when the token is after a literal with = sign in it
 ///   and the first literal without redirection behind it matches "export"
 t_token	*aux_handle_vartok(t_token	*token)
 {
-	token->type = TOK_LITERAL;
+	token->type |= TOK_LITERAL;
 	if (token->prev
-		&& (token->prev->type == TOK_HRDC
-			|| (token->prev->type == TOK_LITERAL && !token->prev->space_after
-				&& token->prev->prev && token->prev->prev->type == TOK_HRDC)
+		&& (token->prev->type & TOK_REDIRS
+			|| (token->prev->type & TOK_LITERAL && !token->prev->space_after
+				&& token->prev->prev && token->prev->prev->type & TOK_REDIRS)
 		)
 	)
 	{
@@ -104,6 +104,7 @@ t_token	*aux_merge_next(t_token *token)
 			token->next->token, 1, 1);
 	token->space_after = token->next->space_after;
 	tmp = token->next;
+	token->type |= token->next->type;
 	token->next = token->next->next;
 	free(tmp->raw);
 	free(tmp);
@@ -125,7 +126,7 @@ void	merge_tokens(t_token *tk)
 			&& tk->next->type & (TOK_LITERAL | TOK_DBLQ | TOK_SNGQ)
 		)
 			tk = aux_merge_next(tk);
-		else if (tk->type & TOK_VAR)
+		else if (tk->type == TOK_VAR)
 			tk = aux_handle_vartok(tk);
 		else
 			tk = tk->next;

@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:21:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 23:34:29 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:16:01 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ char	*expand_line(char *line)
 ///        and populate the token->token field of tokens
 ///      -# All quoted tokens are stripped from the quote characters.
 ///      -# Double quote characters are expanded directly.
-///      -# Context of quotes no longer matters so they're converted to literal.
 ///		 -# Expansion of variable tokens is kept till merging phase.
 ///        	because we need to know which context the variable is in
 void	expand_literal_tokens(t_token	*token)
@@ -81,7 +80,7 @@ void	expand_literal_tokens(t_token	*token)
 		if (token->type & TOK_DBLQ)
 			ft_strrchr(token->token, token->raw[0])[0] = '\0';
 		if (token->type & (TOK_SNGQ | TOK_DBLQ))
-			token->type = TOK_LITERAL;
+			token->type |= TOK_LITERAL;
 		token = token->next;
 	}
 }
