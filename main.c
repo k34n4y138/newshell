@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 11:25:47 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 17:47:44 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **environ)
 	env_init(environ);
 	while (1)
 	{
-		line = readline("minishell > ");
+		line = readline("minishell>$ ");
 		if (!line)
 			break ;
 		add_history(line);

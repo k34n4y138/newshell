@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltn_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 19:35:23 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/18 01:28:14 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/19 16:30:25 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	bltn_env(t_command *cmd)
 	i = 0;
 	while (cmd->envp[i])
 	{
-		ft_putstr_fd(cmd->envp[i++], cmd->io[1]);
-		ft_putstr_fd("\n", cmd->io[1]);
+		ft_putstr_fd(cmd->envp[i++], cmd->pip[1]);
+		ft_putstr_fd("\n", cmd->pip[1]);
 	}
 	return (0);
 }

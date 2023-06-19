@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:15:12 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 09:11:32 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 16:30:42 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ void	print_args(t_command *cmd)
 	env = *env_store(0);
 	while (env)
 	{
-		ft_putstr_fd("declare -x ", cmd->io[1]);
-		ft_putstr_fd(env->key, cmd->io[1]);
+		ft_putstr_fd("declare -x ", cmd->pip[1]);
+		ft_putstr_fd(env->key, cmd->pip[1]);
 		if (env->value)
 		{
-			ft_putstr_fd("=\"", cmd->io[1]);
-			ft_putstr_fd(env->value, cmd->io[1]);
-			ft_putstr_fd("\"", cmd->io[1]);
+			ft_putstr_fd("=\"", cmd->pip[1]);
+			ft_putstr_fd(env->value, cmd->pip[1]);
+			ft_putstr_fd("\"", cmd->pip[1]);
 		}
-		ft_putstr_fd("\n", cmd->io[1]);
+		ft_putstr_fd("\n", cmd->pip[1]);
 		env = env->next;
 	}
 }

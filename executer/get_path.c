@@ -6,13 +6,13 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:20:53 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 12:06:40 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 18:17:51 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exicution.h"
 
-void print_error(char *msg, char *cmd)
+void	print_error(char *msg, char *cmd)
 {
 	ft_printf("minishell: %s: %s\n", cmd, msg);
 	exit(127);
@@ -73,7 +73,6 @@ char	*get_valid_path(char *path, char *cmd0)
 			break ;
 		}
 	}
-	// free(path);
 	free_paths(paths);
 	return (valid);
 }
