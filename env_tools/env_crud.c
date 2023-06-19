@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/17 11:29:35 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/19 23:35:01 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*env_lookup(char *key)
 			return (env->value);
 		env = env->next;
 	}
-	return ("");
+	return (NULL);
 }
 
 int	env_update(char	*key, char	*value, int create)

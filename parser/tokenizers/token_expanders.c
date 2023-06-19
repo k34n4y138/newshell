@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_expanders.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:21:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 16:34:50 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 23:34:29 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*expand_line(char *line)
 {
 	char	*ret;
 	char	*varname;
+	char	*varvalue;
 	int		i;
 
 	i = 0;
@@ -47,7 +48,10 @@ char	*expand_line(char *line)
 		if (line[i] == '$' && env_namelen(line + i + 1))
 		{
 			varname = ft_substr(line + i, 1, env_namelen(line + i + 1));
-			ret = ft_strjoin_free(ret, env_lookup(varname), 1, 0);
+			varvalue = env_lookup(varname);
+			if (!varvalue)
+				varvalue = "";
+			ret = ft_strjoin_free(ret, varvalue, 1, 0);
 			free(varname);
 			i += env_namelen(line + i + 1) + 1;
 		}
