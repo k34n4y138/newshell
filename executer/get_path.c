@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:20:53 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 18:17:51 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:41:35 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_error(char *msg, char *cmd)
 {
-	ft_printf("minishell: %s: %s\n", cmd, msg);
+	ft_printf_fd(2, "minishell: %s: %s\n", cmd, msg);
 	exit(127);
 }
 
@@ -42,7 +42,7 @@ char	*check_p(char *cmd)
 			valid = ft_strdup(cmd);
 		else
 		{
-			ft_printf("minishell: permission denied: %s\n", cmd);
+			ft_printf_fd(2, "minishell: permission denied: %s\n", cmd);
 			exit (126);
 		}
 	}

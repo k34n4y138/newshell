@@ -42,7 +42,7 @@ all: $(NAME)
 
 $(NAME): $(READLINE) $(LIBFT) $(OBJS) 
 	@ echo "Compiling $(NAME)"
-	@ $(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LBRDLN) executer/libft/libft.a executer/ft_printf/libftprintf.a -o $(NAME)
+	@ $(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LBRDLN) -o $(NAME)
 
 
 %.o: %.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exicution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 18:40:26 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:30:18 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_file(char *file_name)
 {
-	ft_printf("minishell: %s: %s\n", file_name, strerror(errno));
+	ft_printf_fd(2, "minishell: %s: %s\n", file_name, strerror(errno));
 	exit(1);
 }
 
