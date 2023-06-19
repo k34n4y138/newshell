@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 17:47:44 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/20 00:40:41 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "executer/exicution.h"
+#include "executer/execution.h"
 #include "env_tools/env_manager.h"
 #include "parser/parser.h"
 #include <stdlib.h>
@@ -29,9 +29,22 @@ void print_command(t_command *cmd)
 		printf("REDIRECTS:\n");
 		t_redirection *redirs = cmd->_redirects;
 		while (redirs)
-		{
-			printf("\t\tREDIR: %d\n", redirs->type);
+		{;
 			printf("\t\tFILE: %s\n", redirs->file);
+			if (redirs->type & (REDIR_PIPEIN | REDIR_PIPEOUT))
+				printf("\t\tis pipe %s\n", redirs->type & REDIR_PIPEIN ? "in" : "out");
+			else if (redirs->type & REDIR_FILEIN)
+				printf("\t\tis file in\n");
+			else if (redirs->type & REDIR_FILEOUT)
+				printf("\t\tis file out\n");
+			else if (redirs->type & REDIR_FILEAPND)
+				printf("\t\tis file append\n");
+			else if (redirs->type & REDIR_HEREDOC)
+				printf("\t\tis heredoc\n");
+			if (redirs->type & FILE_CHECK_AMBIGOUS)
+				printf("\t\tcheck if ambigous\n");
+			if (redirs->type & REDIR_HEREDOC && redirs->type &HRDC_NO_EXPAND)
+				printf("\t\tno expand\n");
 			redirs = redirs->next;
 		}
 		printf("+------------------------------------+\n");
