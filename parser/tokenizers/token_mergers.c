@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:14:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/12 23:24:04 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/19 13:24:53 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	replace_token(t_token	*tkn, t_token *new_token)
 /// @brief aux function to handle variable tokens
 ///		   normally variable tokens are expanded and subtokenized
 ///        variable tokens won't be expanded if prev is HRDC
-///        variable tokens won't be subtokenized if in context of export 
+///        variable tokens won't be subtokenized if in context of export
+///        or next token is a literal "$" without space or 
 ///  export context is when the token is after a literal with = sign in it
 ///   and the first literal without redirection behind it matches "export"
 t_token	*aux_handle_vartok(t_token	*token)
@@ -76,11 +77,13 @@ t_token	*aux_handle_vartok(t_token	*token)
 		return (token->prev);
 	}
 	token->token = expand_line(token->raw);
-	if (token->prev
-		&& token->prev->space_after == false
-		&& token->prev->type & TOK_LITERAL
-		&& ft_strchr(token->prev->token, '=')
-		&& is_bltn_export_context(token)
+	if ((token->prev
+			&& token->prev->space_after == false
+			&& token->prev->type & TOK_LITERAL
+			&& ft_strchr(token->prev->token, '=')
+			&& is_bltn_export_context(token))
+		|| (token->next && token->next->type == TOK_VAR
+			&& !token->space_after && !ft_strcmp(token->next->raw, "$"))
 	)
 		return (token->prev);
 	replace_token(token, tokenizer(token->token, true));
