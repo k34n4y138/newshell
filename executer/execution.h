@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exicution.h                                        :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:22:38 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 22:29:17 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:54:01 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXICTUION_H
-# define EXICTUION_H
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
 # include <stdio.h>
 # include "../parser/command_builders/t_command.h"
 # include "../env_tools/env_manager.h"
-# include "ft_printf/ft_printf.h"
 # include "../libft/libft.h"
 # include <readline/readline.h>
 # include <unistd.h>

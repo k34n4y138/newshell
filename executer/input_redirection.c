@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:19:43 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 18:20:30 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:58:26 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exicution.h"
+#include "execution.h"
 
 t_redirection	*check_last_input_file(t_command *cmd)
 {

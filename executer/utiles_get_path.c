@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utiles_get_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 18:18:45 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:58:18 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exicution.h"
+#include "execution.h"
 
 void	close_prev_pip(t_command *cmd)
 {

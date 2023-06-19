@@ -6,11 +6,11 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:20:53 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 22:41:35 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:58:54 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exicution.h"
+#include "execution.h"
 
 void	print_error(char *msg, char *cmd)
 {

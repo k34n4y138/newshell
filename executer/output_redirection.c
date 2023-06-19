@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   output_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 18:40:55 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/19 22:58:31 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exicution.h"
+#include "execution.h"
 
 
 char	*expand_line(char *line);
