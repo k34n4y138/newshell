@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 00:53:51 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 08:22:18 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,13 @@ void	read_lin(t_redirection *redirect)
 	while (1)
 	{
 		read_2 = readline("> ");
-		// TODO: if (!(redirect->type & HRDC_NO_EXPAND))
-		read = expand_line(read_2);
-		free(read_2);
+		if (!(redirect->type & HRDC_NO_EXPAND))
+		{
+			read = expand_line(read_2);
+			free(read_2);
+		}
+		else
+			read = read_2;
 		if (!read || ft_strnstr_1(read, redirect->file,
 				ft_strlen(redirect->file)))
 		{
