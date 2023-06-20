@@ -12,12 +12,6 @@
 
 #include "execution.h"
 
-void exit_file(char *file_name)
-{
-	ft_printf_fd(2, "minishell: %s: %s\n", file_name, strerror(errno));
-	exit(1);
-}
-
 void read_herdoc(t_command *cmd)
 {
 	t_redirection *redirect;
@@ -29,6 +23,13 @@ void read_herdoc(t_command *cmd)
 			read_lin(redirect);
 		redirect = redirect->next;
 	}
+}
+
+void check_herdoc(t_command *cmd)
+{
+	if (cmd->redirs & (REDIR_HEREDOC | REDIR_FILEIN))
+			if (cmd->redirs & REDIR_HEREDOC)
+				read_herdoc(cmd);
 }
 
 void start_execution(t_command *cmd)
@@ -53,7 +54,6 @@ void wait_for_childs(t_command *cmd)
 
 	while (cmd)
 	{
-		// ft_printf_fd(2, "pid: %d\n", cmd->pid);
 		if (waitpid(cmd->pid, &status, 0) == -1)
 		{
 			perror("waitpid");

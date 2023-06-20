@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 10:52:04 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/20 11:07:01 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 
 char	*expand_line(char *line);
+
+void exit_file(char *file_name)
+{
+	ft_printf_fd(2, "minishell: %s: %s\n", file_name, strerror(errno));
+	exit(1);
+}
 
 t_redirection	*creat_out_file(t_redirection *redirect)
 {

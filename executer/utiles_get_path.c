@@ -33,33 +33,6 @@ void	dup_herdoc(t_command *cmd)
 		close(cmd->prev->pip[READ_END]);
 }
 
-char	*ft_strnstr_1(char *str, char *to_find, int len)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (str[i] == '\0' && to_find[i] == '\0')
-		return (str);
-	while (str[i] && j + i < len)
-	{
-		while (str[i] == to_find[i] && j + i < len)
-		{
-			i++;
-			if (to_find[i] == '\0')
-			{
-				if (ft_strlen(str) == ft_strlen(to_find))
-					return (str);
-			}
-		}
-		str++;
-		i = 0;
-		j++;
-	}
-	return (0);
-}
-
 char	*ft_strstr(char *str, char *to_find)
 {
 	int	i;
