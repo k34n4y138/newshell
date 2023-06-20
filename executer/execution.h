@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:22:38 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 22:54:01 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 15:44:50 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,10 @@ void	handl_input(t_command *cmd);
 
 void	handl_output(t_command *cmd);
 void	read_lin(t_redirection *redirect);
+
+
+/// @brief expand filename and throw error if ambiguous
+///  designed to be called from child after invoking fork 
+char	*filename_expand(char	*ftoken);
 
 #endif

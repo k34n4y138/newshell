@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:21:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/20 00:16:01 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 12:21:59 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,45 @@ char	*expand_line(char *line)
 	return (ret);
 }
 
+/// @brief check if the token is in a context of a file redirection
+///    example: cat >$var"TOKEN"file	-> TOKEN is not expanded
+int	is_in_file_ctx(t_token	*token)
+{
+	int	match;
+
+	match = TOK_FILEIN | TOK_FILEOUT | TOK_FILEAPND;
+	while (token->prev)
+	{
+		if (token->prev->type & match)
+			return (1);
+		else if (token->prev->type & (TOK_PIPE | TOK_HRDC)
+			|| token->prev->space_after)
+			return (0);
+		token = token->prev;
+	}
+	return (0);
+}
+
 /// @brief expand literal tokens 
 ///        and populate the token->token field of tokens
-///      -# All quoted tokens are stripped from the quote characters.
-///      -# Double quote characters are expanded directly.
+///		 -# if quoted tokens are in file context;
+///           they are not expanded nor stripped from quotes
+///      -# quoted tokens are stripped from the quote characters.
+///      -# Double quote characters are expanded unless in filename context.
 ///		 -# Expansion of variable tokens is kept till merging phase.
 ///        	because we need to know which context the variable is in
 void	expand_literal_tokens(t_token	*token)
 {
 	while (token)
 	{
+		if (token->type & (TOK_SNGQ | TOK_DBLQ))
+			token->type |= TOK_LITERAL;
+		if (token->type & (TOK_DBLQ | TOK_SNGQ) && is_in_file_ctx(token))
+		{
+			token->token = ft_strdup(token->raw);
+			token = token->next;
+			continue ;
+		}
 		if (token->type == TOK_DBLQ)
 			token->token = expand_line(token->raw + 1);
 		else if (token->type & (TOK_LITERAL | TOK_SNGQ))
@@ -79,8 +108,6 @@ void	expand_literal_tokens(t_token	*token)
 					ft_strlen(token->raw) - 2 * (token->type == TOK_SNGQ));
 		if (token->type & TOK_DBLQ)
 			ft_strrchr(token->token, token->raw[0])[0] = '\0';
-		if (token->type & (TOK_SNGQ | TOK_DBLQ))
-			token->type |= TOK_LITERAL;
 		token = token->next;
 	}
 }
