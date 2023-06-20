@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/20 11:05:02 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 12:38:39 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,16 @@ int	env_insert(char	*key, char *value)
 char	*env_lookup(char *key)
 {
 	t_envirun	*env;
+	char		*exit_status;
+	static char	resv_exitvale[10];
 
 	if (ft_strcmp(key, "?") == 0)
-		return (ft_itoa(env_exit_status(0, 0)));
+	{
+		exit_status = ft_itoa(env_exit_status(0, 0));
+		ft_strlcpy(resv_exitvale, exit_status, 10);
+		free(exit_status);
+		return (resv_exitvale);
+	}
 	env = *env_store(0);
 	while (env)
 	{
