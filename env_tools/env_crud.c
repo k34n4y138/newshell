@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 23:35:01 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 11:05:02 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ char	*env_lookup(char *key)
 {
 	t_envirun	*env;
 
+	if (ft_strcmp(key, "?") == 0)
+		return (ft_itoa(env_exit_status(0, 0)));
 	env = *env_store(0);
 	while (env)
 	{
