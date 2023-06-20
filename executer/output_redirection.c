@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 08:22:18 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/20 10:52:04 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_redirection	*creat_out_file(t_redirection *redirect)
 	return (last_out);
 }
 
-void	handl_out_file(t_command *cmd, t_redirection *last_out)
+void	handl_out_file(t_redirection *last_out)
 {
 	if (last_out->type & REDIR_FILEOUT)
 	{
@@ -82,7 +82,7 @@ void	handl_output(t_command *cmd)
 			last_out = creat_out_file(redirect);
 			redirect = redirect->next;
 		}
-		handl_out_file(cmd, last_out);
+		handl_out_file(last_out);
 	}
 	else if (cmd->redirs & REDIR_PIPEOUT)
 		dup2(cmd->pip[WRITE_END], STDOUT_FILENO);

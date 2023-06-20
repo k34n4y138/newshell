@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 09:18:48 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/20 09:56:36 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	close_prev_pip(t_command *cmd)
 		close(cmd->pip[WRITE_END]);
 	if (cmd->redirs & REDIR_PIPEIN)
 		close(cmd->prev->pip[READ_END]);
-	}
+}
 
 void	dup_herdoc(t_command *cmd)
 {

@@ -6,21 +6,21 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 09:37:05 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/20 10:30:53 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	exit_file(char *file_name)
+void exit_file(char *file_name)
 {
 	ft_printf_fd(2, "minishell: %s: %s\n", file_name, strerror(errno));
 	exit(1);
 }
 
-void	read_herdoc(t_command *cmd)
+void read_herdoc(t_command *cmd)
 {
-	t_redirection	*redirect;
+	t_redirection *redirect;
 
 	redirect = cmd->_redirects;
 	while (redirect)
@@ -31,21 +31,29 @@ void	read_herdoc(t_command *cmd)
 	}
 }
 
-void	start_execution(t_command *cmd)
+void start_execution(t_command *cmd)
 {
 	handl_output(cmd);
 	handl_input(cmd);
 	check_cmd(cmd);
+	if (cmd->redirs & REDIR_PIPEOUT)
+	{
+		close(cmd->pip[READ_END]);
+		close(cmd->pip[WRITE_END]);	
+	}
+	if (cmd->redirs & REDIR_PIPEIN)
+		close(cmd->prev->pip[READ_END]);
 	cmd->envp = env_export();
 	execve(cmd->path, cmd->argv, cmd->envp);
 }
 
-void	wait_for_childs(t_command *cmd)
+void wait_for_childs(t_command *cmd)
 {
-	int	status;
+	int status;
 
 	while (cmd)
 	{
+		// ft_printf_fd(2, "pid: %d\n", cmd->pid);
 		if (waitpid(cmd->pid, &status, 0) == -1)
 		{
 			perror("waitpid");
@@ -56,9 +64,9 @@ void	wait_for_childs(t_command *cmd)
 	env_exit_status(status >> 8, 1);
 }
 
-void	exicution(t_command *cmd)
+void exicution(t_command *cmd)
 {
-	t_command	*head;
+	t_command *head;
 
 	head = cmd;
 	while (cmd)

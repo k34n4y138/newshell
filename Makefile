@@ -60,12 +60,12 @@ clean:
 	@ echo "Removing OBJS, Deps and libft"
 	@ $(MAKE) -C libft fclean > /dev/null
 	@ rm -f $(OBJS) $(DEPS)
-	@ rm -rf readline
 
 
 fclean: clean
 	@ echo "Removing $(NAME) and readline"
 	@ rm -f $(NAME)
+	@ rm -rf readline
 	@ rm -f readline-$(RDLN_VER).tar.gz
 
 
