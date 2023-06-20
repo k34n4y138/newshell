@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/19 22:57:58 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 09:14:17 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	wait_for_childs(t_command *cmd)
 			perror("waitpid");
 			exit(EXIT_FAILURE);
 		}
-		cmd->exit_status = status >> 8;
 		cmd = cmd->next;
 	}
+	env_exit_status(status >> 8, 1);
 }
 
 void	exicution(t_command *cmd)
