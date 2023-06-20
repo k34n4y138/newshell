@@ -61,8 +61,6 @@ void	handl_out_file(t_command *cmd, t_redirection *last_out)
 		dup2(last_out->fd, STDOUT_FILENO);
 		close(last_out->fd);
 	}
-	if (cmd->redirs & REDIR_PIPEOUT)
-		close(cmd->pip[WRITE_END]);
 }
 
 void	handl_output(t_command *cmd)
@@ -87,10 +85,7 @@ void	handl_output(t_command *cmd)
 		handl_out_file(cmd, last_out);
 	}
 	else if (cmd->redirs & REDIR_PIPEOUT)
-	{
 		dup2(cmd->pip[WRITE_END], STDOUT_FILENO);
-		close(cmd->pip[WRITE_END]);
-	}
 }
 
 void	read_lin(t_redirection *redirect)
@@ -109,8 +104,7 @@ void	read_lin(t_redirection *redirect)
 		}
 		else
 			read = read_2;
-		if (!read || ft_strnstr_1(read, redirect->file,
-				ft_strlen(redirect->file)))
+		if (!read || !ft_strcmp(redirect->file, read))
 		{
 			free(read);
 			break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:19:43 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 00:52:08 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 10:50:13 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	dup_in_file(t_command *cmd)
 		exit_file(last_in_file->file);
 	dup2(last_in_file->fd, STDIN_FILENO);
 	close(last_in_file->fd);
-	if (cmd->redirs & REDIR_PIPEIN)
-		close(cmd->prev->pip[READ_END]);
 }
 
 int	which_last_input(t_command *cmd)
@@ -96,8 +94,5 @@ void	handl_input(t_command *cmd)
 			dup_herdoc(cmd);
 	}
 	else if (cmd->redirs & REDIR_PIPEIN)
-	{
 		dup2(cmd->prev->pip[READ_END], STDIN_FILENO);
-		close(cmd->prev->pip[READ_END]);
-	}
 }
