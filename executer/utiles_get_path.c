@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 12:43:23 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 18:12:19 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,26 @@ char	*ft_strstr(char *str, char *to_find)
 	return (0);
 }
 
+int check_is_empty(char *cmd)
+{
+	while (*cmd)
+	{
+		if (*cmd != ' ' || *cmd != '\t')
+			return (1);
+		cmd++;
+	}
+	return (0);
+}
+
 void	check_cmd(t_command *cmd)
 {
+	if (cmd->argc == 0)
+		exit(0);
+	if (!check_is_empty(cmd->argv[0]))
+	{
+		ft_printf_fd(2, "minishell: %s: command not found\n", cmd->argv[0]);
+		exit (127);
+	}
 	if (cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.'
 		|| (ft_strstr(cmd->argv[0], ".sh") && ft_strchr(cmd->argv[0], 47)))
 	{

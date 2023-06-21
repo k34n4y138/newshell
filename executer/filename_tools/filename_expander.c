@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filename_expander.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:34:59 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/21 12:40:58 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 16:50:19 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char	*filename_expand(char	*ftoken)
 {
 	int		fname_len;
 
+	if (!ftoken)
+		filename_errexit("", "FILENAME MISSING!!");
 	fname_len = validate_filename(ftoken);
 	if (fname_len == -1)
 		filename_errexit(ftoken, "ambiguous redirect");

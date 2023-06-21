@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 16:47:46 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:22:23 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@ void exit_file(char *file_name)
 
 t_redirection	*creat_out_file(t_redirection *redirect)
 {
-	t_redirection	*last_out;
 	char			*file_name;
 
-	last_out = NULL;
+	if (!(redirect->type & (REDIR_FILEOUT | REDIR_FILEAPND)))
+		return (redirect);
 	file_name = filename_expand(redirect->file);
 	if (redirect->type & REDIR_FILEOUT)
 	{
 		redirect->fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (redirect->fd == -1)
 			exit_file(redirect->file);
-		last_out = redirect;
 		close(redirect->fd);
 	}
 	else if (redirect->type & REDIR_FILEAPND)
@@ -41,11 +40,10 @@ t_redirection	*creat_out_file(t_redirection *redirect)
 		redirect->fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (redirect->fd == -1)
 			exit_file(redirect->file);
-		last_out = redirect;
 		close(redirect->fd);
 	}
 	free(file_name);
-	return (last_out);
+	return (redirect);
 }
 
 void	handl_out_file(t_redirection *last_out)
@@ -58,16 +56,16 @@ void	handl_out_file(t_redirection *last_out)
 		last_out->fd = open(filename,
 				O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (last_out->fd == -1)
-			exit_file(last_out->file);
+			exit_file(filename);
 		dup2(last_out->fd, STDOUT_FILENO);
 		close(last_out->fd);
 	}
 	else if (last_out->type & REDIR_FILEAPND)
 	{
-		last_out->fd = open(last_out->file,
+		last_out->fd = open(filename,
 				O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (last_out->fd == -1)
-			exit_file(last_out->file);
+			exit_file(filename);
 		dup2(last_out->fd, STDOUT_FILENO);
 		close(last_out->fd);
 	}
@@ -78,6 +76,7 @@ void	handl_output(t_command *cmd)
 {
 	t_redirection	*last_out;
 	t_redirection	*redirect;
+	char	*file_name;
 
 	redirect = cmd->_redirects;
 	if (cmd->redirs & (REDIR_FILEOUT | REDIR_FILEAPND))
@@ -86,8 +85,10 @@ void	handl_output(t_command *cmd)
 		{
 			if (redirect->type & REDIR_FILEIN)
 			{
-				if (access(redirect->file, F_OK) == -1)
+				file_name = filename_expand(redirect->file);
+				if (access(file_name, F_OK) == -1)
 					break ;
+				free(file_name);
 				redirect = redirect->next;
 			}
 			last_out = creat_out_file(redirect);

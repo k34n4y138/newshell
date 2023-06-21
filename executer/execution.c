@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 15:35:58 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 18:04:53 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void check_herdoc(t_command *cmd)
 
 void check_built_in(t_command *cmd)
 {
+	if (cmd->argc == 0)
+		return ;
 	if (!ft_strcmp(cmd->argv[0], "pwd") || !ft_strcmp(cmd->argv[0], "PWD"))
 		bltn_pwd(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
@@ -76,6 +78,8 @@ void start_execution(t_command *cmd)
 	if (cmd->redirs & REDIR_PIPEIN)
 		close(cmd->prev->pip[READ_END]);
 	execve(cmd->path, cmd->argv, cmd->envp);
+	ft_printf_fd(2, "minishell: %s\n", strerror(errno));
+	exit (126);
 }
 
 int	is_env(t_command *cmd)
