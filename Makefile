@@ -12,15 +12,15 @@ ENV_FILES = env_crud.c env_store.c
 ENV_SRC = $(patsubst %.c,env_tools/%.c, $(ENV_FILES))
 
 #====EXECUTION/BUILTINS====#
-BUILTINS_FILES = bltn_env.c bltn_export.c bltn_unset.c
+BUILTINS_FILES = bltn_env.c bltn_export.c bltn_unset.c bltn_pwd.c bltn_exit.c
 BUILTINS_SRC = $(patsubst %.c,executer/built_ins/%.c, $(BUILTINS_FILES))
 
 #====EXECUTION====#
-EXECUTION_FILES = execution.c get_path.c utiles_get_path.c output_redirection.c input_redirection.c
+EXECUTION_FILES = execution.c get_path.c utiles_get_path.c output_redirection.c input_redirection.c filename_tools/filename_expander.c filename_tools/filename_validator.c
 EXECUTION_SRC = $(patsubst %.c,executer/%.c, $(EXECUTION_FILES)) 
 
 #====MAIN====#
-SRC = main.c $(PARSING_SRC) $(ENV_SRC) $(EXECUTION_SRC)
+SRC = main.c $(PARSING_SRC) $(ENV_SRC) $(EXECUTION_SRC) $(BUILTINS_SRC)
 OBJS = $(patsubst %.c,%.o,$(SRC))
 DEPS = $(patsubst %.c,%.d,$(SRC))
 

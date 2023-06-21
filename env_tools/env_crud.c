@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_crud.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 18:00:15 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/20 12:38:39 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 09:56:02 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	**env_export(void)
 	env = *env_store(0);
 	while (env)
 	{
-		if (!env->value)
+		if (env->value)
 		{
 			export[i] = ft_strjoin(env->key, "=");
 			export[i] = ft_strjoin_free(export[i], env->value, 1, 0);

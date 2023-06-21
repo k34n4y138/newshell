@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltn_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:43:41 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/17 01:32:34 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 11:13:35 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,24 @@
 int	bltn_unset(t_command *cmd)
 {
 	int	i;
+	int	ret;
 
 	i = 1;
+	ret = 0;
 	while (cmd->argv[i])
 	{
 		if (!env_validate_key(cmd->argv[i]))
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n",
-				cmd->argv[i]);
-			return (1);
+			ft_printf_fd(2, "minishell: unset: `%s': not a valid identifier\n",
+				cmd->argv[i++]);
+			ret = 1;
+			continue ;
 		}
-		env_delete(cmd->argv[i]);
+		env_delete(cmd->argv[i++]);
 		i++;
 	}
-	return (0);
+	if (cmd->redirs & (REDIR_PIPEIN | REDIR_PIPEOUT))
+			exit(ret);
+	env_exit_status(ret, 1);
+	return (ret);
 }

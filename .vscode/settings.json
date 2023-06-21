@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"builtins.h": "c",
+		"parser.h": "c",
+		"execution.h": "c"
+	}
+}

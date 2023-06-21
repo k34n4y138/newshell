@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 19:35:23 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 16:30:25 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 10:04:20 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #include "../../env_tools/env_manager.h"
 #include "../../libft/libft.h"
 
-int	bltn_env(t_command *cmd)
+void	bltn_env(t_command *cmd)
 {
 	int	i;
 
 	i = 0;
 	while (cmd->envp[i])
 	{
-		ft_putstr_fd(cmd->envp[i++], cmd->pip[1]);
-		ft_putstr_fd("\n", cmd->pip[1]);
+		ft_putstr_fd(cmd->envp[i++], 1);
+		ft_putstr_fd("\n", 1);
 	}
-	return (0);
+	exit(0);
 }

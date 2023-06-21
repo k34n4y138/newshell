@@ -6,11 +6,27 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 09:56:36 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/20 12:43:23 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+void wait_for_childs(t_command *cmd)
+{
+	int status;
+
+	while (cmd)
+	{
+		if (waitpid(cmd->pid, &status, 0) == -1)
+		{
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+		cmd = cmd->next;
+	}
+	env_exit_status(status >> 8, 1);
+}
 
 void	close_prev_pip(t_command *cmd)
 {

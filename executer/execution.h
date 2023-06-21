@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:22:38 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 15:44:50 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/20 16:11:29 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../parser/command_builders/t_command.h"
 # include "../env_tools/env_manager.h"
 # include "../libft/libft.h"
+# include "built_ins/builtins.h"
 # include <readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -31,6 +32,7 @@
 
 //execition
 
+void	check_built_in(t_command *cmd);
 void	exicution(t_command *cmds);
 char	*get_path(char *path, char *cmd0, int status);
 void	exit_file(char *file_name);
@@ -40,7 +42,7 @@ void	exit_file(char *file_name);
 void	check_cmd(t_command *cmd);
 void	close_prev_pip(t_command *cmd);
 void	dup_herdoc(t_command *cmd);
-char	*ft_strnstr_1(char *str, char *to_find, int len);
+void	wait_for_childs(t_command *cmd);
 
 //input_redires
 
