@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:27 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/19 13:14:10 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:46:18 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ int	split_redirection(char	*line, int toklen, t_token **tokens)
 		tkn->type = TOK_FILEOUT;
 	if (ft_strchr(" \t", line[tkn->len]))
 		tkn->space_after = true;
-	tkn->token = ft_strdup(tkn->raw);
 	append_token(tkn, tokens);
 	return (tkn->len);
 }
