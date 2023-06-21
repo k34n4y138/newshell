@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:10:41 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/20 00:29:39 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:26:41 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,7 @@ t_token	*handle_redirection(t_token *token, t_command	*com)
 ///        either PIPEIN or PIPEOUT 
 void	handle_pipe(t_command	*com, int type)
 {
-	t_redirection	*redir;
-
-	redir = ft_calloc(1, sizeof(t_redirection));
-	redir->type = type;
 	com->redirs |= type;
-	append_redir(redir, com);
 }
 
 /// @brief function that translates tokens into commands
