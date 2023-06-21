@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:33:20 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/20 15:46:07 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 12:41:58 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ int	check_ambiguous(char	**fname, char qt, int	*namelen, int	*expanded)
 	char	*vname;
 	char	*vval;
 
+	*expanded |= 0x01;
 	vname = ft_substr(*fname, 1, env_namelen(*fname + 1));
 	vval = env_lookup(vname);
 	if (!vval)
 		vval = "";
 	free(vname);
-	if (qt != '"' && (ft_strchr(vval, ' ') || ft_strchr(vval, '\t')))
+	if (!qt && (ft_strchr(vval, ' ') || ft_strchr(vval, '\t')))
 		return (-1);
+	*fname += env_namelen(*fname + 1) + 1;
 	*namelen += ft_strlen(vval);
-	*fname += ft_strlen(vname) + 1;
-	*expanded |= 1;
 	return (0);
 }
 
@@ -58,8 +58,8 @@ int	validate_filename(char	*fname)
 	int		expanded;
 
 	qt = 0;
-	expanded = 0;
 	fname_len = 0;
+	expanded = 0;
 	while (*fname)
 	{
 		if (aux_qtcheck(*fname, &qt, &expanded))
