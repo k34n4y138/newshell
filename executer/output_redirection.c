@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 17:22:23 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 18:25:02 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	read_lin(t_redirection *redirect)
 	while (1)
 	{
 		read_2 = readline("> ");
-		if (!(redirect->type & HRDC_NO_EXPAND))
+		if (!(redirect->type & HRDC_NO_EXPAND) && read_2)
 		{
 			read = expand_line(read_2);
 			free(read_2);
