@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:20:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 08:58:38 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 12:16:17 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	bltn_exit(t_command *cmd, int key)
 	}
 	else
 	{
+		//9223372036854775807
 		ft_printf_fd(1, "exit\n");
 		exit(ft_atoi(cmd->argv[1]));
 	}

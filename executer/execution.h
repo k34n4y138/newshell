@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:22:38 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 16:11:29 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 11:31:25 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 //execition
 
 void	check_built_in(t_command *cmd);
-void	exicution(t_command *cmds);
+void	execution(t_command *cmds);
 char	*get_path(char *path, char *cmd0, int status);
 void	exit_file(char *file_name);
 

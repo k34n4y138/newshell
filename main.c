@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:38:51 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/20 08:54:30 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 11:45:17 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **environ)
 		add_history(line);
 		cmd = parse_command(line);
 		// print_command(cmd);
-		exicution(cmd);
+		execution(cmd);
 		destroy_commands(cmd);
 		free(line);
 	}

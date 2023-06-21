@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 11:08:55 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 15:35:58 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void read_herdoc(t_command *cmd)
 	redirect = cmd->_redirects;
 	if (!(cmd->redirs & REDIR_HEREDOC))
 		return ;
-	ft_printf_fd(2, "test hear\n");
 	while (redirect)
 	{
 		read_lin(redirect);
@@ -46,6 +45,8 @@ void check_built_in(t_command *cmd)
 		bltn_export(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		bltn_unset(cmd);
+	else if (!ft_strcmp(cmd->argv[0], "echo") || !ft_strcmp(cmd->argv[0], "ECHO"))
+		bltn_echo(cmd);
 }
 
 void	check_singl_built(t_command *cmd)
@@ -56,6 +57,8 @@ void	check_singl_built(t_command *cmd)
 		bltn_export(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		bltn_unset(cmd);
+	// else if (!ft_strcmp(cmd->argv[0], "cd"))
+	// 	bltn_unset(cmd);
 }
 
 void start_execution(t_command *cmd)
@@ -77,13 +80,15 @@ void start_execution(t_command *cmd)
 
 int	is_env(t_command *cmd)
 {
+	if (cmd->argc == 0)
+		return (0);
 	if (!ft_strcmp(cmd->argv[0], "exit")|| !ft_strcmp(cmd->argv[0], "cd")
 		|| !ft_strcmp(cmd->argv[0], "unset") || !ft_strcmp(cmd->argv[0], "export"))
 		return (1);
 	return (0);
 }
 
-void exicution(t_command *cmd)
+void execution(t_command *cmd)
 {
 	t_command *head;
 
