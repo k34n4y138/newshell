@@ -52,6 +52,14 @@ void print_command(t_command *cmd)
 	}
 }
 
+void	signal_handler(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
 int	main(int argc, char **argv, char **environ)
 {
@@ -63,6 +71,8 @@ int	main(int argc, char **argv, char **environ)
 	env_init(environ);
 	while (1)
 	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 		line = readline("minishell>$ ");
 		if (!line)
 			break ;

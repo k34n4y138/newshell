@@ -42,8 +42,8 @@ void check_built_in(t_command *cmd)
 		bltn_unset(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "echo") || !ft_strcmp(cmd->argv[0], "ECHO"))
 		bltn_echo(cmd);
-	// else if (!ft_strcmp(cmd->argv[0], "cd"))
-	// 	bltn_cd(cmd);
+	else if (!ft_strcmp(cmd->argv[0], "cd"))
+		bltn_cd(cmd);
 }
 
 void	check_singl_built(t_command *cmd)
@@ -54,8 +54,8 @@ void	check_singl_built(t_command *cmd)
 		bltn_export(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		bltn_unset(cmd);
-	// else if (!ft_strcmp(cmd->argv[0], "cd"))
-	// 	bltn_cd(cmd);
+	else if (!ft_strcmp(cmd->argv[0], "cd"))
+		bltn_cd(cmd);
 }
 
 void start_execution(t_command *cmd)
@@ -88,10 +88,18 @@ int	is_env(t_command *cmd)
 	return (0);
 }
 
+void sighandler(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+}
+
 void execution(t_command *cmd)
 {
 	t_command *head;
 
+	signal(SIGINT, sighandler);
+	signal(SIGQUIT, sighandler);
 	head = cmd;
 	while (cmd)
 	{
