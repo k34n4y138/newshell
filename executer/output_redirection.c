@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 18:25:02 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/22 09:20:41 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	handl_output(t_command *cmd)
 			{
 				file_name = filename_expand(redirect->file);
 				if (access(file_name, F_OK) == -1)
-					break ;
+					return ;
 				free(file_name);
 				redirect = redirect->next;
 			}
