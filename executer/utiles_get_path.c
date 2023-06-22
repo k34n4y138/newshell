@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/22 09:49:15 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/22 10:29:37 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ void	check_cmd(t_command *cmd)
 	if ((cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.')
 			&& ft_strstr(cmd->argv[0], ".sh"))
 		cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 1);
-		else
-			cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 0);
-	}
+	else if (ft_strchr(cmd->argv[0], '/'))
+		cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 2);
 	else
 		cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 0);
 }

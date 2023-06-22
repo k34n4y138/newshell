@@ -24,9 +24,7 @@ void exit_file(char *file_name)
 t_redirection	*creat_out_file(t_redirection *redirect)
 {
 	char			*file_name;
-
-	if (!(redirect->type & (REDIR_FILEOUT | REDIR_FILEAPND)))
-		return (redirect);
+	
 	file_name = filename_expand(redirect->file);
 	if (redirect->type & REDIR_FILEOUT)
 	{
@@ -89,9 +87,9 @@ void	handl_output(t_command *cmd)
 				if (access(file_name, F_OK) == -1)
 					return ;
 				free(file_name);
-				redirect = redirect->next;
 			}
-			last_out = creat_out_file(redirect);
+			if (redirect->type & (REDIR_FILEOUT | REDIR_FILEAPND))
+				last_out = creat_out_file(redirect);
 			redirect = redirect->next;
 		}
 		handl_out_file(last_out);

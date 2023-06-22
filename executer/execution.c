@@ -16,21 +16,14 @@ void read_herdoc(t_command *cmd)
 {
 	t_redirection *redirect;
 
-	redirect = cmd->_redirects;
 	if (!(cmd->redirs & REDIR_HEREDOC))
 		return ;
-	while (redirect)
+	redirect = cmd->_redirects;
+	while (redirect && redirect->type & REDIR_HEREDOC)
 	{
 		read_lin(redirect);
 		redirect = redirect->next;
 	}
-}
-
-void check_herdoc(t_command *cmd)
-{
-	if (cmd->redirs & (REDIR_HEREDOC | REDIR_FILEIN))
-			if (cmd->redirs & REDIR_HEREDOC)
-				read_herdoc(cmd);
 }
 
 void check_built_in(t_command *cmd)
@@ -49,6 +42,8 @@ void check_built_in(t_command *cmd)
 		bltn_unset(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "echo") || !ft_strcmp(cmd->argv[0], "ECHO"))
 		bltn_echo(cmd);
+	// else if (!ft_strcmp(cmd->argv[0], "cd"))
+	// 	bltn_cd(cmd);
 }
 
 void	check_singl_built(t_command *cmd)
@@ -60,7 +55,7 @@ void	check_singl_built(t_command *cmd)
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		bltn_unset(cmd);
 	// else if (!ft_strcmp(cmd->argv[0], "cd"))
-	// 	bltn_unset(cmd);
+	// 	bltn_cd(cmd);
 }
 
 void start_execution(t_command *cmd)
@@ -87,7 +82,8 @@ int	is_env(t_command *cmd)
 	if (cmd->argc == 0)
 		return (0);
 	if (!ft_strcmp(cmd->argv[0], "exit")|| !ft_strcmp(cmd->argv[0], "cd")
-		|| !ft_strcmp(cmd->argv[0], "unset") || !ft_strcmp(cmd->argv[0], "export"))
+		|| !ft_strcmp(cmd->argv[0], "unset")
+				|| !ft_strcmp(cmd->argv[0], "export"))
 		return (1);
 	return (0);
 }
