@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:20:53 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 18:12:56 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:15:26 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	*get_path(char *path, char *cmd0, int status)
 
 	valid_path = NULL;
 	if (!path)
+		print_error("No such file or directory", cmd0);
+	if (path[0] == '\0')
 		print_error("No such file or directory", cmd0);
 	if (status == 0)
 	{
