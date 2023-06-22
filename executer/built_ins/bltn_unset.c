@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltn_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 22:43:41 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/21 11:13:35 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 20:16:59 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ int	bltn_unset(t_command *cmd)
 			continue ;
 		}
 		env_delete(cmd->argv[i++]);
-		i++;
 	}
 	if (cmd->redirs & (REDIR_PIPEIN | REDIR_PIPEOUT))
-			exit(ret);
+		exit(ret);
 	env_exit_status(ret, 1);
 	return (ret);
 }

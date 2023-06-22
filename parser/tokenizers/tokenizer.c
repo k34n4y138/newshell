@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:55:13 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/17 01:33:53 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:48:09 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	is_redirection(char *line)
 		return (1);
 	if (*line == '<' || *line == '>')
 	{
-		if (*(line + 1) == '<' || *(line + 1) == '>')
+		if (ft_strncmp(line, ">>", 2) == 0
+			|| ft_strncmp(line, "<<", 2) == 0)
 			return (2);
 		return (1);
 	}

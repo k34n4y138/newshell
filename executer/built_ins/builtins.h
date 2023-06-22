@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:32:41 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/21 12:04:42 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/21 20:06:54 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ void	bltn_env(t_command *cmd);
 void	bltn_pwd(t_command *cmd);
 void	bltn_exit(t_command *cmd, int key);
 void	bltn_echo(t_command *cmd);
-
+void	bltn_cd(t_command *cmd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:41:12 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/09 17:22:23 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:55:00 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	redir_syntaxifier(t_token *token)
 int	syntax_error(t_token *token)
 {
 	printf("syntax error near unexpected token ");
-	if (token->next)
-		printf("`%s'\n", token->next->raw);
+	if (token)
+		printf("`%s'\n", token->raw);
 	else
 		printf("`newline'\n");
 	return (1);
@@ -59,9 +59,13 @@ int	syntaxifier(t_token *tokens)
 		if (token->type & (TOK_DBLQ | TOK_SNGQ) && !quote_syntaxifier(token))
 			return (unmatched_quote(token));
 		else if (token->type & TOK_REDIRS && !redir_syntaxifier(token))
+			return (syntax_error(token->next));
+		else if (token->type & TOK_PIPE && !token->prev)
 			return (syntax_error(token));
-		else if (token->type & TOK_PIPE && (!token->next || !token->prev))
-			return (syntax_error(token));
+		else if (token->type & TOK_PIPE && !token->next)
+			return (syntax_error(NULL));
+		else if (token->type & TOK_PIPE && token->next->type & TOK_PIPE)
+			return (syntax_error(token->next));
 		token = token->next;
 	}
 	return (0);
