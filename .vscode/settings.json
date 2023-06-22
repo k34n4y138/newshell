@@ -3,6 +3,7 @@
 		"builtins.h": "c",
 		"parser.h": "c",
 		"execution.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"locale": "c"
 	}
 }

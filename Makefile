@@ -1,4 +1,4 @@
-CC = clang -fsanitize=address -g
+# CC = clang -fsanitize=address -g
 CFLAGS = -Wall -Wextra -Werror
 
 #====PARSING====#

@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/22 09:20:41 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/22 12:47:09 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	handl_out_file(t_redirection *last_out)
 	}
 	free(filename);
 }
-
 void	handl_output(t_command *cmd)
 {
 	t_redirection	*last_out;
