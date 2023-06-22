@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:20:53 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 19:15:26 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/22 09:53:05 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*check_p(char *cmd)
 			valid = ft_strdup(cmd);
 		else
 		{
-			ft_printf_fd(2, "minishell: permission denied: %s\n", cmd);
+			ft_printf_fd(2, "minishell: %s: permission denied\n", cmd);
 			exit (126);
 		}
 	}
@@ -82,9 +82,9 @@ char	*get_path(char *path, char *cmd0, int status)
 	char	*valid_path;
 
 	valid_path = NULL;
-	if (!path)
-		print_error("No such file or directory", cmd0);
-	if (path[0] == '\0')
+	if (status == 2)
+		return (cmd0);
+	if (!path || path[0] == '\0')
 		print_error("No such file or directory", cmd0);
 	if (status == 0)
 	{

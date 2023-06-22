@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 18:12:19 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/22 09:49:15 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,9 @@ void	check_cmd(t_command *cmd)
 		ft_printf_fd(2, "minishell: %s: command not found\n", cmd->argv[0]);
 		exit (127);
 	}
-	if (cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.'
-		|| (ft_strstr(cmd->argv[0], ".sh") && ft_strchr(cmd->argv[0], 47)))
-	{
-		if (cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.')
-			cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 1);
+	if ((cmd->argv[0][0] == '/' || cmd->argv[0][0] == '.')
+			&& ft_strstr(cmd->argv[0], ".sh"))
+		cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 1);
 		else
 			cmd->path = get_path(env_lookup("PATH"), cmd->argv[0], 0);
 	}
