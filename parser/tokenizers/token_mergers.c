@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:14:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/20 00:21:21 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 22:41:48 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ t_token	*aux_handle_vartok(t_token	*token)
 			&& token->prev->type & TOK_LITERAL
 			&& ft_strchr(token->prev->token, '=')
 			&& is_bltn_export_context(token))
-		|| (token->next && token->next->type == TOK_VAR
-			&& !token->space_after && !ft_strcmp(token->next->raw, "$"))
 	)
 		return (token->prev);
 	replace_token(token, tokenizer(token->token, true));
