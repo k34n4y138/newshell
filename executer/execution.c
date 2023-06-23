@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/23 15:39:05 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:17:44 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	start_fork(t_command *cmd)
 void	execution(t_command *cmd)
 {
 	t_command	*head;
-	t_command	*head1;
 
+	head = cmd;
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, sighandler);
 	read_herdoc(cmd); // TODO: if heredoc is killed by a signal, do not complete execution and return to prompt
@@ -92,5 +92,5 @@ void	execution(t_command *cmd)
 		cmd = cmd->next;
 	}
 	wait_for_childs(head);
-	close_fd_herdoc(head1);
+	close_fd_herdoc(head);
 }

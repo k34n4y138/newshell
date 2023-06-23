@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 16:33:13 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 15:44:48 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:17:21 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "command_builders/command_builders.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../env_tools/env_manager.h"
 
 /// @brief Maestro function for parsing line into a linked list of commands
 ///			-# it first tokenize the line
