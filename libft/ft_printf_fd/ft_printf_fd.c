@@ -37,10 +37,10 @@ static void	aux_printnfree(char *strprint, int *len, char flg, int fd)
 {
 	if (!strprint)
 		strprint = ft_strdup("(null)");
-	ft_putstr_fd(strprint, fd);
+	ft_buffer(strprint, 0, 0, fd);
 	if (!ft_strlen(strprint) && flg == 'c')
 	{
-		ft_putchar_fd(0, fd);
+		ft_buffer(NULL, 0, 0, fd);
 		*len += 1;
 	}
 	else
