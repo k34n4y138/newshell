@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 16:33:13 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 11:43:34 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 15:44:48 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_command	*parse_command(char *line)
 	if (syntaxifier(tokens))
 	{
 		destroy_tokens(tokens);
+		env_exit_status(258, 1);
 		return (NULL);
 	}
 	expand_literal_tokens(tokens);
