@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:19:43 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/23 10:08:28 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 20:18:50 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // char	*filename = expand_line(redirect->file);
 // TODO: check if check_if_ambigous
 // if (redirect->type & FILE_CHECK_AMBIGOUS && ft_strchr(filename, ' '))
-// 		ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", redirect->file);
+// 		ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", redirect->file)`
 
 t_redirection	*check_last_input_file(t_command *cmd)
 {
@@ -38,9 +38,12 @@ t_redirection	*check_last_input_file(t_command *cmd)
 void	dup_in_file(t_command *cmd)
 {
 	t_redirection	*last_in_file;
+	char			*filename;
 
 	last_in_file = check_last_input_file(cmd);
-	last_in_file->fd = open(last_in_file->file, O_RDONLY, 0644);
+	filename = filename_expand(last_in_file->file);
+	last_in_file->fd = open(filename, O_RDONLY, 0644);
+	free(filename);
 	if (last_in_file->fd == -1)
 		exit_file(last_in_file->file);
 	dup2(last_in_file->fd, STDIN_FILENO);
@@ -67,13 +70,16 @@ int	which_last_input(t_command *cmd)
 void	check_infile(t_command *cmd)
 {
 	t_redirection	*redirect;
+	char			*filename;
 
 	redirect = cmd->_redirects;
 	while (redirect)
 	{
 		if (redirect->type & REDIR_FILEIN)
 		{
-			redirect->fd = open(redirect->file, O_RDONLY, 0644);
+			filename = filename_expand(redirect->file);
+			redirect->fd = open(filename, O_RDONLY, 0644);
+			free(filename);
 			if (redirect->fd == -1)
 				exit_file(redirect->file);
 			close(redirect->fd);
