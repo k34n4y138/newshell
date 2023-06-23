@@ -23,6 +23,8 @@ void		start_read_herdoc(t_redirection *redirect, int *pip)
 
 	hed.stor = ft_calloc(1, 1);
 	close(pip[0]);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	while (1)
 	{
 		hed.read_2 = readline("> ");
