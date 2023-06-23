@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/23 10:40:13 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 15:39:05 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,7 @@ void	execution(t_command *cmd)
 
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, sighandler);
-	head = cmd;
-	head1 = cmd;
-	read_herdoc(cmd);
+	read_herdoc(cmd); // TODO: if heredoc is killed by a signal, do not complete execution and return to prompt
 	while (cmd)
 	{
 		if (start_fork(cmd))
