@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:48:32 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 20:44:11 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 15:17:07 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ char	*get_env_path(char	*name, int redir)
 	path = env_lookup(name);
 	if (!path)
 	{
-		write(2, "minishell: cd : ", 16);
-		write(2, name, ft_strlen(name));
-		write(2, " not set\n", 9);
+		ft_printf_fd(2, "minishell: cd: %s not set\n", name);
 		aux_exit(redir, 1);
 	}
 	return (path);
