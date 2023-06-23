@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:22:38 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 11:31:25 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 10:25:38 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,26 @@
 # define READ_END 0
 # define WRITE_END 1
 
+typedef struct s_herdoc
+{
+	char	*read;
+	char	*read_2;
+	char	*stor;
+}	t_herdoc;
+
+
+t_redirection	*check_last_input_herdoc(t_command *cmd);
+
+//check_herdoc
+
+void read_herdoc(t_command *cmd);
+
+//check_env
+
+int		is_env(t_command *cmd);
+void	check_singl_built(t_command *cmd);
+void	check_built_in(t_command *cmd);
+
 //execition
 
 void	check_built_in(t_command *cmd);
@@ -41,17 +61,16 @@ void	exit_file(char *file_name);
 
 void	check_cmd(t_command *cmd);
 void	close_prev_pip(t_command *cmd);
-void	dup_herdoc(t_command *cmd);
 void	wait_for_childs(t_command *cmd);
 
 //input_redires
 
 void	handl_input(t_command *cmd);
+void	dup_in_herdoc(t_command *cmd);
 
 //output_redires
 
 void	handl_output(t_command *cmd);
-void	read_lin(t_redirection *redirect);
 
 
 /// @brief expand filename and throw error if ambiguous

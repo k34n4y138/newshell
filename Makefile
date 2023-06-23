@@ -16,7 +16,7 @@ BUILTINS_FILES = bltn_env.c bltn_export.c bltn_unset.c bltn_pwd.c bltn_exit.c bl
 BUILTINS_SRC = $(patsubst %.c,executer/built_ins/%.c, $(BUILTINS_FILES))
 
 #====EXECUTION====#
-EXECUTION_FILES = execution.c get_path.c utiles_get_path.c output_redirection.c input_redirection.c filename_tools/filename_expander.c filename_tools/filename_validator.c
+EXECUTION_FILES = execution.c get_path.c utiles_get_path.c output_redirection.c input_redirection.c filename_tools/filename_expander.c filename_tools/filename_validator.c check_env.c check_herdoc.c
 EXECUTION_SRC = $(patsubst %.c,executer/%.c, $(EXECUTION_FILES)) 
 
 #====MAIN====#

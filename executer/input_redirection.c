@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:19:43 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/20 10:50:13 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 10:08:28 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	check_infile(t_command *cmd)
 
 void	handl_input(t_command *cmd)
 {
+	t_redirection	*check_last_in_her;
 	if (cmd->redirs & (REDIR_HEREDOC | REDIR_FILEIN))
 	{
 		if (cmd->redirs & REDIR_FILEIN)
@@ -91,7 +92,11 @@ void	handl_input(t_command *cmd)
 		if (which_last_input(cmd) & REDIR_FILEIN)
 			dup_in_file(cmd);
 		else
-			dup_herdoc(cmd);
+		{
+			check_last_in_her = check_last_input_herdoc(cmd);
+			dup2(check_last_in_her->fd, STDIN_FILENO);
+			close(check_last_in_her->fd);
+		}
 	}
 	else if (cmd->redirs & REDIR_PIPEIN)
 		dup2(cmd->prev->pip[READ_END], STDIN_FILENO);

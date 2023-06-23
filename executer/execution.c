@@ -6,57 +6,11 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/21 18:04:53 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 10:40:13 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-void read_herdoc(t_command *cmd)
-{
-	t_redirection *redirect;
-
-	if (!(cmd->redirs & REDIR_HEREDOC))
-		return ;
-	redirect = cmd->_redirects;
-	while (redirect && redirect->type & REDIR_HEREDOC)
-	{
-		read_lin(redirect);
-		redirect = redirect->next;
-	}
-}
-
-void check_built_in(t_command *cmd)
-{
-	if (cmd->argc == 0)
-		return ;
-	if (!ft_strcmp(cmd->argv[0], "pwd") || !ft_strcmp(cmd->argv[0], "PWD"))
-		bltn_pwd(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "exit"))
-		bltn_exit(cmd, EXIT_WITH_PIP);
-	else if (!ft_strcmp(cmd->argv[0], "env") || !ft_strcmp(cmd->argv[0], "ENV"))
-		bltn_env(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
-		bltn_export(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
-		bltn_unset(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "echo") || !ft_strcmp(cmd->argv[0], "ECHO"))
-		bltn_echo(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "cd"))
-		bltn_cd(cmd);
-}
-
-void	check_singl_built(t_command *cmd)
-{
-	if (!ft_strcmp(cmd->argv[0], "exit"))
-		bltn_exit(cmd, SINGL_EXIT);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
-		bltn_export(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
-		bltn_unset(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "cd"))
-		bltn_cd(cmd);
-}
 
 void start_execution(t_command *cmd)
 {
@@ -77,50 +31,68 @@ void start_execution(t_command *cmd)
 	exit (126);
 }
 
-int	is_env(t_command *cmd)
-{
-	if (cmd->argc == 0)
-		return (0);
-	if (!ft_strcmp(cmd->argv[0], "exit")|| !ft_strcmp(cmd->argv[0], "cd")
-		|| !ft_strcmp(cmd->argv[0], "unset")
-				|| !ft_strcmp(cmd->argv[0], "export"))
-		return (1);
-	return (0);
-}
-
 void sighandler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
 }
 
-void execution(t_command *cmd)
+void	close_fd_herdoc(t_command *cmd)
 {
-	t_command *head;
+	t_command		*head;
+	t_redirection	*redirect;
+
+	head = cmd;
+	while (head && (head->redirs & REDIR_HEREDOC))
+	{
+		redirect = head->_redirects;
+		while (redirect && (redirect->type & REDIR_HEREDOC))
+		{
+			if (redirect->fd > 2)
+				close(redirect->fd);
+			redirect = redirect->next;
+		}
+		head = head->next;
+	}
+}
+
+int	start_fork(t_command *cmd)
+{
+	if (!cmd->next && !cmd->prev && is_env(cmd))
+	{
+		check_singl_built(cmd);
+		return(1);
+	}
+	if (cmd->next != NULL && pipe(cmd->pip) == -1)
+	{
+		perror("minishell");
+		exit(EXIT_FAILURE);
+	}
+	cmd->pid = fork();
+	if (cmd->pid == -1)
+		exit(EXIT_FAILURE);
+	else if (cmd->pid == 0)
+		start_execution(cmd);
+	close_prev_pip(cmd);
+	return (0);
+}
+
+void	execution(t_command *cmd)
+{
+	t_command	*head;
+	t_command	*head1;
 
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, sighandler);
 	head = cmd;
+	head1 = cmd;
+	read_herdoc(cmd);
 	while (cmd)
 	{
-		if (!cmd->next && !cmd->prev && is_env(cmd))
-		{
-			check_singl_built(cmd);
+		if (start_fork(cmd))
 			return ;
-		}
-		if (cmd->next != NULL && pipe(cmd->pip) == -1)
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
-		read_herdoc(cmd);
-		cmd->pid = fork();
-		if (cmd->pid == -1)
-			exit(EXIT_FAILURE);
-		else if (cmd->pid == 0)
-			start_execution(cmd);
-		close_prev_pip(cmd);
 		cmd = cmd->next;
 	}
 	wait_for_childs(head);
+	close_fd_herdoc(head1);
 }

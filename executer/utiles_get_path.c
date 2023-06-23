@@ -6,7 +6,7 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/22 16:54:02 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 10:40:46 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,40 +34,6 @@ void	close_prev_pip(t_command *cmd)
 		close(cmd->pip[WRITE_END]);
 	if (cmd->redirs & REDIR_PIPEIN)
 		close(cmd->prev->pip[READ_END]);
-}
-
-void	dup_herdoc(t_command *cmd)
-{
-	int	fd;
-
-	fd = open(".stor_herdoc", O_RDONLY, 0644);
-	if (fd == -1)
-		exit(1);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	if (cmd->redirs & REDIR_PIPEIN)
-		close(cmd->prev->pip[READ_END]);
-}
-
-char	*ft_strstr(char *str, char *to_find)
-{
-	int	i;
-
-	i = 0;
-	if (to_find[i] == '\0')
-		return (str);
-	while (str[i])
-	{
-		while (str[i] == to_find[i])
-		{
-			i++;
-			if (to_find[i] == '\0')
-				return (str);
-		}
-		str++;
-		i = 0;
-	}
-	return (0);
 }
 
 int check_is_empty(char *cmd)

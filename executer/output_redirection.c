@@ -6,14 +6,11 @@
 /*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 18:20:55 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/22 12:47:09 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 10:12:46 by yowazga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-
-char	*expand_line(char *line);
 
 void exit_file(char *file_name)
 {
@@ -69,6 +66,7 @@ void	handl_out_file(t_redirection *last_out)
 	}
 	free(filename);
 }
+
 void	handl_output(t_command *cmd)
 {
 	t_redirection	*last_out;
@@ -95,32 +93,4 @@ void	handl_output(t_command *cmd)
 	}
 	else if (cmd->redirs & REDIR_PIPEOUT)
 		dup2(cmd->pip[WRITE_END], STDOUT_FILENO);
-}
-
-void	read_lin(t_redirection *redirect)
-{
-	char	*read;
-	char	*read_2;
-
-	redirect->fd = open(".stor_herdoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	while (1)
-	{
-		read_2 = readline("> ");
-		if (!(redirect->type & HRDC_NO_EXPAND) && read_2)
-		{
-			read = expand_line(read_2);
-			free(read_2);
-		}
-		else
-			read = read_2;
-		if (!read || !ft_strcmp(redirect->file, read))
-		{
-			free(read);
-			break ;
-		}
-		ft_putstr_fd(read, redirect->fd);
-		write(redirect->fd, "\n", 1);
-		free(read);
-	}
-	close(redirect->fd);
 }
