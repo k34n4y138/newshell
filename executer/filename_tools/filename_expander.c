@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filename_expander.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:34:59 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/21 16:50:19 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 15:35:51 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	aux_expander(char **ftoken, char	*fname, int fname_len)
 	vval = env_lookup(vname);
 	if (!vval)
 		vval = "";
-	ft_strlcat(fname, vval, fname_len);
+	ft_strlcat(fname, vval, fname_len + 1);
 	*ftoken += ft_strlen(vname) + 1;
 	free(vname);
 	return (ft_strlen(vval));
