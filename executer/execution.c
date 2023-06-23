@@ -6,11 +6,30 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/23 18:50:59 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 22:44:46 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include <sys/stat.h>
+
+int	is_dir(char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st) == -1)
+	{
+		ft_printf_fd(2, "minishell: %s: %s\n", path, strerror(errno));
+		return (1);
+	}
+	if ((st.st_mode & S_IFMT) == S_IFDIR)
+	{
+		ft_printf_fd(2, "minishell: %s: is a directory\n", path);
+		return (1);
+	}
+	
+	return (0);
+}
 
 void start_execution(t_command *cmd)
 {
@@ -26,9 +45,11 @@ void start_execution(t_command *cmd)
 	}
 	if (cmd->redirs & REDIR_PIPEIN)
 		close(cmd->prev->pip[READ_END]);
+	if (is_dir(cmd->path))
+		exit(126);
 	execve(cmd->path, cmd->argv, cmd->envp);
 	ft_printf_fd(2, "minishell: %s\n", strerror(errno));
-	exit (126);
+	exit (127);
 }
 
 void sighandler(int sig)
@@ -89,7 +110,7 @@ void	execution(t_command *cmd)
 	while (cmd)
 	{
 		if (start_fork(cmd))
-			return close_fd_herdoc(head);
+			return (close_fd_herdoc(head));
 		cmd = cmd->next;
 	}
 	wait_for_childs(head);
