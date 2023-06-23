@@ -79,7 +79,8 @@ int	main(int argc, char **argv, char **environ)
 		add_history(line);
 		cmd = parse_command(line);
 		// print_command(cmd);
-		execution(cmd);
+		if (cmd)
+			execution(cmd);
 		destroy_commands(cmd);
 		free(line);
 	}

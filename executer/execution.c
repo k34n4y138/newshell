@@ -84,7 +84,8 @@ void	execution(t_command *cmd)
 	head = cmd;
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, sighandler);
-	read_herdoc(cmd); // TODO: if heredoc is killed by a signal, do not complete execution and return to prompt
+	if (read_herdoc(cmd))
+		return ;
 	while (cmd)
 	{
 		if (start_fork(cmd))

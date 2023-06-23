@@ -32,9 +32,14 @@
 
 typedef struct s_herdoc
 {
-	char	*read;
-	char	*read_2;
-	char	*stor;
+	char			*read;
+	char			*read_2;
+	char			*stor;
+	t_command		*head;
+	t_redirection	*redirect;
+	pid_t			pid;
+	int				status;
+	int				pip[2];
 }	t_herdoc;
 
 
@@ -42,7 +47,7 @@ t_redirection	*check_last_input_herdoc(t_command *cmd);
 
 //check_herdoc
 
-void read_herdoc(t_command *cmd);
+int		read_herdoc(t_command *cmd);
 
 //check_env
 
@@ -66,7 +71,6 @@ void	wait_for_childs(t_command *cmd);
 //input_redires
 
 void	handl_input(t_command *cmd);
-void	dup_in_herdoc(t_command *cmd);
 
 //output_redires
 

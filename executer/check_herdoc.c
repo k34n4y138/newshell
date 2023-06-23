@@ -48,31 +48,31 @@ void		start_read_herdoc(t_redirection *redirect, int *pip)
 	exit(0);
 }
 
-void read_herdoc(t_command *cmd)
+int read_herdoc(t_command *cmd)
 {
-	t_command		*head;
-	t_redirection	*redirect;
-	pid_t			pid;
-	int				pip[2];
-
-	head = cmd;
-	while (head && (head->redirs & REDIR_HEREDOC))
+	t_herdoc	hrd;
+	
+	hrd.head = cmd;
+	while (hrd.head && (hrd.head->redirs & REDIR_HEREDOC))
 	{
-		redirect = head->_redirects;
-		while (redirect && (redirect->type & REDIR_HEREDOC))
+		hrd.redirect = hrd.head->_redirects;
+		while (hrd.redirect && (hrd.redirect->type & REDIR_HEREDOC))
 		{
-			if (pipe(pip) == -1)
+			if (pipe(hrd.pip) == -1)
 				exit(EXIT_FAILURE);
-			pid = fork();
-			if (pid == -1)
+			hrd.pid = fork();
+			if (hrd.pid == -1)
 				exit(EXIT_FAILURE);
-			else if (pid == 0)
-				start_read_herdoc(redirect, pip);
-			waitpid(pid, NULL, 0);
-			redirect->fd = pip[0];
-			close(pip[1]);
-			redirect = redirect->next;
+			else if (hrd.pid == 0)
+				start_read_herdoc(hrd.redirect, hrd.pip);
+			waitpid(hrd.pid, &hrd.status, 0);
+			if (WIFSIGNALED(hrd.status))
+				return (1);
+			hrd.redirect->fd = hrd.pip[0];
+			close(hrd.pip[1]);
+			hrd.redirect = hrd.redirect->next;
 		}
-		head = head->next;
+		hrd.head = hrd.head->next;
 	}
+	return (0);
 }
