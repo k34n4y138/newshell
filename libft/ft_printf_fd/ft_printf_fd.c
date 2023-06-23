@@ -6,15 +6,13 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:09:42 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 15:13:06 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 21:39:29 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_fd.h"
 #include "../libft.h"
 #define FLAGS "csdiuxX"
-
-int	ft_buffer(char	*str, char c, int flush, int fd);
 
 static char	*handle_hexa(const char *str, va_list valst)
 {
@@ -37,10 +35,10 @@ static void	aux_printnfree(char *strprint, int *len, char flg, int fd)
 {
 	if (!strprint)
 		strprint = ft_strdup("(null)");
-	ft_buffer(strprint, 0, 0, fd);
+	ft_putstr_fd(strprint, fd);
 	if (!ft_strlen(strprint) && flg == 'c')
 	{
-		ft_buffer(NULL, 0, 0, fd);
+		ft_putchar_fd(0, fd);
 		*len += 1;
 	}
 	else
@@ -97,10 +95,9 @@ int	ft_printf_fd(int fd, const char *str, ...)
 			iter += handle_flags(&str[iter], valst, &len, fd);
 		else
 		{
-			ft_buffer(NULL, str[iter++], 0, fd);
+			ft_putchar_fd(str[iter++], fd);
 			len++;
 		}
 	}
-	ft_buffer(NULL, 0, 1, fd);
 	return (len);
 }
