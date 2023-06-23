@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:34:59 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 15:35:51 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:47:20 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	filename_errexit(char	*fname, char *err)
 }
 
 
-int	aux_expander(char **ftoken, char	*fname, int fname_len)
+int	aux_expander(char **ftoken, char	**fname)
 {
 	char	*vname;
 	char	*vval;
@@ -34,20 +34,20 @@ int	aux_expander(char **ftoken, char	*fname, int fname_len)
 	vval = env_lookup(vname);
 	if (!vval)
 		vval = "";
-	ft_strlcat(fname, vval, fname_len + 1);
+	*fname = ft_strjoin_free(*fname, vval, 1, 0);
 	*ftoken += ft_strlen(vname) + 1;
 	free(vname);
 	return (ft_strlen(vval));
 }
 
-char	*expand_fname(char	*ftoken, int fname_len)
+char	*expand_fname(char	*ftoken)
 {
 	char	*fname;
 	int		fln;
 	char	qt;
 
 	fln = 0;
-	fname = ft_calloc(fname_len + 1, sizeof(char));
+	fname = ft_calloc(1, 1);
 	while (*ftoken)
 	{
 		if (ft_strchr("\"'", *ftoken) && !qt)
@@ -55,9 +55,9 @@ char	*expand_fname(char	*ftoken, int fname_len)
 		else if (*ftoken == qt && ftoken++)
 			qt = 0;
 		else if (*ftoken == '$' && env_namelen(ftoken + 1) && qt != '\'')
-			fln += aux_expander(&ftoken, fname, fname_len);
+			fln += aux_expander(&ftoken, &fname);
 		else
-			fname[fln++] = *(ftoken++);
+			fname = ft_strjoin_free(fname, ft_substr(ftoken++, 0, 1),1 , 1);
 	}
 	return (fname);
 }
