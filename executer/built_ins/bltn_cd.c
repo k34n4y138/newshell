@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 15:48:32 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/23 15:17:07 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 22:19:17 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,24 @@ char	*get_env_path(char	*name, int redir)
 void	set_pwd(char *path, int redir)
 {
 	char	*tmpwd;
+	int		err;
 
+	err = 0;
 	tmpwd = getcwd(NULL, 0);
 	if (chdir(path))
 	{
 		write(2, "minishell: cd: ", 15);
 		perror(path);
-		aux_exit(redir, 1);
+		err = 1;
 	}
-	env_update("OLDPWD", tmpwd, 1);
+	if (!err)
+		env_update("OLDPWD", tmpwd, 1);
 	free(tmpwd);
 	tmpwd = getcwd(NULL, 0);
-	env_update("PWD", tmpwd, 1);
+	if (!err)
+		env_update("PWD", tmpwd, 1);
 	free(tmpwd);
-	aux_exit(redir, 0);
+	aux_exit(redir, err);
 }
 
 void	bltn_cd(t_command *cmd)
@@ -72,5 +76,7 @@ void	bltn_cd(t_command *cmd)
 	}
 	else
 		where_togo = cmd->argv[1];
+	if (!where_togo)
+		return ;
 	set_pwd(where_togo, cmd->redirs);
 }
