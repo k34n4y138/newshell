@@ -28,7 +28,7 @@ void		start_read_herdoc(t_redirection *redirect, int *pip)
 	while (1)
 	{
 		hed.read_2 = readline("> ");
-		if (!(redirect->type & REDIR_HEREDOC) && hed.read_2)
+		if (!(redirect->type & HRDC_NO_EXPAND) && hed.read_2)
 		{
 			hed.read = expand_line(hed.read_2);
 			free(hed.read_2);
