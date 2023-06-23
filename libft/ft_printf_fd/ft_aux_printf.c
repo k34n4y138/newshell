@@ -6,12 +6,39 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:00:23 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/01/30 11:49:16 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 15:12:46 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_fd.h"
 #include "../libft.h"
+#include <stdio.h>
+
+int	ft_buffer(char	*str, char c, int flush, int fd)
+{
+	static char	buffer[1024];
+	static int	iter = 0;
+	int			len;
+
+	if (flush || (str && iter + ft_strlen(str) >= 1024) || iter + 1 >= 1024)
+	{
+		write(fd, buffer, iter);
+		iter = 0;
+		return (0);
+	}
+	else if (str)
+	{
+		len = ft_strlen(str);
+		ft_strlcat(buffer, str, 1024);
+		iter += len;
+	}
+	else
+	{
+		buffer[iter] = c;
+		iter++;
+	}
+	return (iter);
+}
 
 char	*ctoa(int c)
 {

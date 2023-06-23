@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:09:42 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/01/30 11:49:12 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 15:13:06 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_fd.h"
 #include "../libft.h"
 #define FLAGS "csdiuxX"
+
+int	ft_buffer(char	*str, char c, int flush, int fd);
 
 static char	*handle_hexa(const char *str, va_list valst)
 {
@@ -95,9 +97,10 @@ int	ft_printf_fd(int fd, const char *str, ...)
 			iter += handle_flags(&str[iter], valst, &len, fd);
 		else
 		{
-			ft_putchar_fd(str[iter++], fd);
+			ft_buffer(NULL, str[iter++], 0, fd);
 			len++;
 		}
 	}
+	ft_buffer(NULL, 0, 1, fd);
 	return (len);
 }
