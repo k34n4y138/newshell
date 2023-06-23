@@ -74,5 +74,5 @@ char	*filename_expand(char	*ftoken)
 		filename_errexit(ftoken, "ambiguous redirect");
 	else if (fname_len == 0)
 		filename_errexit("", "No such file or directory");
-	return (expand_fname(ftoken, fname_len));
+	return (expand_fname(ftoken));
 }
