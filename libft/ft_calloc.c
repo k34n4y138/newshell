@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:58:24 by zmoumen           #+#    #+#             */
-/*   Updated: 2022/10/09 16:01:55 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 11:27:58 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,10 @@ void	*ft_calloc(size_t count, size_t size)
 	ptr = malloc(count * size);
 	if (ptr)
 		ft_bzero(ptr, count * size);
+	else
+	{
+		write(2, "Malloc Error\n", 13);
+		exit(1);
+	}
 	return (ptr);
 }

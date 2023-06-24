@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:41:12 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/21 19:55:00 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 12:12:27 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	redir_syntaxifier(t_token *token)
 
 int	syntax_error(t_token *token)
 {
-	printf("syntax error near unexpected token ");
+	printf("minishell: syntax error near unexpected token ");
 	if (token)
 		printf("`%s'\n", token->raw);
 	else
@@ -43,7 +43,7 @@ int	syntax_error(t_token *token)
 
 int	unmatched_quote(t_token *token)
 {
-	printf("unexpected EOF while looking for matching ");
+	printf("minishell: unexpected EOF while looking for matching ");
 	printf("`%c'\n", token->raw[0]);
 	return (1);
 }
