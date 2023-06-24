@@ -32,6 +32,7 @@
 
 # define READ_END 0
 # define WRITE_END 1
+# define EXIT_PIP 141
 
 /**************************************************************/
 /*                            STRUCT                          */

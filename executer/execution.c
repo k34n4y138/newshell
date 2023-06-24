@@ -68,11 +68,14 @@ int	start_fork(t_command *cmd)
 	if (cmd->next != NULL && pipe(cmd->pip) == -1)
 	{
 		perror("minishell");
-		exit(EXIT_FAILURE);
+		exit(EXIT_PIP);
 	}
 	cmd->pid = fork();
 	if (cmd->pid == -1)
+	{
+		perror("minishell");
 		exit(EXIT_FAILURE);
+	}
 	else if (cmd->pid == 0)
 		start_execution(cmd);
 	close_prev_pip(cmd);
