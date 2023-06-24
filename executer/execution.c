@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/23 22:44:46 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 11:47:03 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,14 @@ void	execution(t_command *cmd)
 	signal(SIGQUIT, sighandler);
 	if (read_herdoc(cmd))
 		return (close_fd_herdoc(head));
-	while (cmd)
+	while (cmd->next)
 	{
 		if (start_fork(cmd))
 			return (close_fd_herdoc(head));
 		cmd = cmd->next;
 	}
-	wait_for_childs(head);
+	if (start_fork(cmd))
+		return (close_fd_herdoc(head));
+	wait_for_childs(cmd);
 	close_fd_herdoc(head);
 }
