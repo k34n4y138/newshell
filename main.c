@@ -55,6 +55,7 @@ void print_command(t_command *cmd)
 void	signal_handler(int sig)
 {
 	(void)sig;
+	env_exit_status(1, 1);
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -84,5 +85,5 @@ int	main(int argc, char **argv, char **environ)
 		destroy_commands(cmd);
 		free(line);
 	}
-	return (0);
+	return (env_exit_status(0, 0));
 }
