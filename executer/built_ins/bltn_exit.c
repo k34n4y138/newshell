@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltn_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 13:20:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/24 10:56:54 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/24 13:59:36 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	check_num_required(t_command *cmd)
 	{
 		if (cmd->argv[1][i] < '0' || cmd->argv[1][i] > '9')
 		{
-			ft_printf_fd(1, "exit\n");
+			if (isatty(0))
+				ft_printf_fd(1, "exit\n");
 			ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n",
 				cmd->argv[1]);
 			destroy_commands(cmd);
@@ -46,7 +47,8 @@ void	moor_arguments_1(t_command *cmd)
 	}
 	else if (cmd->pid == 0)
 	{
-		ft_printf_fd(1, "exit\n");
+		if (isatty(0))
+			ft_printf_fd(1, "exit\n");
 		ft_printf_fd(2, "minishell: exit: too many arguments\n");
 		exit(1);
 	}
@@ -66,9 +68,10 @@ void	bltn_exit(t_command *cmd, int key)
 
 	if (cmd->argc == 1)
 	{
-		ft_printf_fd(1, "exit\n");
+		if (isatty(0))
+			ft_printf_fd(1, "exit\n");
 		destroy_commands(cmd);
-		exit(0);
+		exit(env_exit_status(0, 0));
 	}
 	check_num_required(cmd);
 	if (cmd->argc != 2)
@@ -81,7 +84,8 @@ void	bltn_exit(t_command *cmd, int key)
 	else
 	{
 		ext = ft_atoi(cmd->argv[1]);
-		ft_printf_fd(1, "exit\n");
+		if (isatty(0))
+			ft_printf_fd(1, "exit\n");
 		exit(ext);
 	}
 }
