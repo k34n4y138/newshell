@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:55 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/15 11:34:54 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 15:02:24 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ t_envirun	**env_store(int destroy);
 
 /// @brief initialize the environment
 void		env_init(char **initenv);
-
-/// @brief destroy the environment
-void		env_destroy(void);
 
 /// @brief returns the value of the key if it exists, NULL otherwise
 char		*env_lookup(char *key);

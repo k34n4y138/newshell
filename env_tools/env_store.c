@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:42 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 22:08:26 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 15:06:26 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,30 @@ t_envirun	**env_store(int destroy)
 	return (&env);
 }
 
+void	set_mandatory_envs(void)
+{
+	char	*tmpwd;
+
+	env_update("OLDPWD", NULL, 1);
+	tmpwd = getcwd(NULL, 0);
+	env_update("PWD", tmpwd, 1);
+	free(tmpwd);
+	if (env_lookup("SHLVL"))
+	{
+		tmpwd = ft_itoa(ft_atoi(env_lookup("SHLVL")) + 1);
+		env_update("SHLVL", tmpwd, 1);
+		free(tmpwd);
+	}
+	else
+		env_update("SHLVL", "1", 1);
+	env_delete("_");
+}
+
 void	env_init(char	**initenv)
 {
 	t_envirun	**env;
 	t_envirun	*traverser;
 	t_envirun	*tmp;
-	char		*tmpwd;
 
 	env = env_store(0);
 	traverser = *env;
@@ -53,10 +71,7 @@ void	env_init(char	**initenv)
 		traverser = tmp;
 		initenv++;
 	}
-	env_update("OLDPWD", NULL, 1);
-	tmpwd = getcwd(NULL, 0);
-	env_update("PWD", tmpwd, 1);
-	free(tmpwd);
+	set_mandatory_envs();
 }
 
 int	env_exit_status(int status, int set)
@@ -66,11 +81,6 @@ int	env_exit_status(int status, int set)
 	if (set)
 		exit_status = status;
 	return (exit_status);
-}
-
-void	senv_destroy(void)
-{
-	env_store(1);
 }
 
 int	env_validate_key(char *key)
