@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_herdoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 10:47:48 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/24 10:48:07 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/24 14:38:36 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ void	start_read_herdoc(t_redirection *redirect, int *pip)
 	exit(0);
 }
 
+int	return_exit_heredoc(void)
+{
+	env_exit_status(1, 1);
+	return (1);
+}
+
 int	read_herdoc(t_command *cmd)
 {
 	t_herdoc	hrd;
@@ -86,7 +92,7 @@ int	read_herdoc(t_command *cmd)
 			close(hrd.pip[1]);
 			waitpid(hrd.pid, &hrd.status, 0);
 			if (hrd.status & 0x7F)
-				return (1);
+				return (return_exit_heredoc());
 			hrd.redirect = hrd.redirect->next;
 		}
 		hrd.head = hrd.head->next;
