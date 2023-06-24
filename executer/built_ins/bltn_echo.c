@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bltn_echo.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/24 10:53:41 by yowazga           #+#    #+#             */
+/*   Updated: 2023/06/24 10:53:42 by yowazga          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 int	check_argv(char *av)
@@ -9,7 +21,7 @@ int	check_argv(char *av)
 	{
 		if (av[i] == '-' && av[i + 1] == 'n')
 		{
-		    i++;
+			i++;
 			while (av[i])
 			{
 				if (av[i] == 'n')
@@ -26,7 +38,7 @@ int	check_argv(char *av)
 
 void	print_argv(t_command *cmd, int i)
 {
-	int check;
+	int	check;
 
 	check = 0;
 	if (i == 1)
@@ -53,10 +65,12 @@ void	bltn_echo(t_command *cmd)
 		exit(0);
 	}
 	while (cmd->argv[++i])
+	{
 		if (check_argv(cmd->argv[i]))
 		{
 			print_argv(cmd, i);
 			break ;
 		}
+	}
 	exit (0);
 }

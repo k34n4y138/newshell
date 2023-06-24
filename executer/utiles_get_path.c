@@ -12,9 +12,26 @@
 
 #include "execution.h"
 
-void wait_for_childs(t_command *cmd)
+int	is_dir(char *path)
 {
-	int status;
+	struct stat	st;
+
+	if (stat(path, &st) == -1)
+	{
+		ft_printf_fd(2, "minishell: %s: %s\n", path, strerror(errno));
+		return (1);
+	}
+	if ((st.st_mode & S_IFMT) == S_IFDIR)
+	{
+		ft_printf_fd(2, "minishell: %s: is a directory\n", path);
+		return (1);
+	}
+	return (0);
+}
+
+void	wait_for_childs(t_command *cmd)
+{
+	int	status;
 
 	while (cmd)
 	{
@@ -36,7 +53,7 @@ void	close_prev_pip(t_command *cmd)
 		close(cmd->prev->pip[READ_END]);
 }
 
-int check_is_empty(char *cmd)
+int	check_is_empty(char *cmd)
 {
 	while (*cmd)
 	{

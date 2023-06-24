@@ -91,6 +91,7 @@ void	check_infile(t_command *cmd)
 void	handl_input(t_command *cmd)
 {
 	t_redirection	*check_last_in_her;
+
 	if (cmd->redirs & (REDIR_HEREDOC | REDIR_FILEIN))
 	{
 		if (cmd->redirs & REDIR_FILEIN)

@@ -21,7 +21,6 @@ void	aux_exit(int redir, int ret)
 	env_exit_status(ret, 1);
 }
 
-
 char	*get_env_path(char	*name, int redir)
 {
 	char	*path;
@@ -34,8 +33,6 @@ char	*get_env_path(char	*name, int redir)
 	}
 	return (path);
 }
-
-
 
 void	set_pwd(char *path, int redir)
 {

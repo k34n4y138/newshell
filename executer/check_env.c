@@ -4,9 +4,9 @@ int	is_env(t_command *cmd)
 {
 	if (cmd->argc == 0)
 		return (0);
-	if (!ft_strcmp(cmd->argv[0], "exit")|| !ft_strcmp(cmd->argv[0], "cd")
+	if (!ft_strcmp(cmd->argv[0], "exit") || !ft_strcmp(cmd->argv[0], "cd")
 		|| !ft_strcmp(cmd->argv[0], "unset")
-				|| !ft_strcmp(cmd->argv[0], "export"))
+		|| !ft_strcmp(cmd->argv[0], "export"))
 		return (1);
 	return (0);
 }

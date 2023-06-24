@@ -11,27 +11,8 @@
 /* ************************************************************************** */
 
 #include "execution.h"
-#include <sys/stat.h>
 
-int	is_dir(char *path)
-{
-	struct stat	st;
-
-	if (stat(path, &st) == -1)
-	{
-		ft_printf_fd(2, "minishell: %s: %s\n", path, strerror(errno));
-		return (1);
-	}
-	if ((st.st_mode & S_IFMT) == S_IFDIR)
-	{
-		ft_printf_fd(2, "minishell: %s: is a directory\n", path);
-		return (1);
-	}
-	
-	return (0);
-}
-
-void start_execution(t_command *cmd)
+void	start_execution(t_command *cmd)
 {
 	handl_output(cmd);
 	handl_input(cmd);
@@ -41,7 +22,7 @@ void start_execution(t_command *cmd)
 	if (cmd->redirs & REDIR_PIPEOUT)
 	{
 		close(cmd->pip[READ_END]);
-		close(cmd->pip[WRITE_END]);	
+		close(cmd->pip[WRITE_END]);
 	}
 	if (cmd->redirs & REDIR_PIPEIN)
 		close(cmd->prev->pip[READ_END]);
@@ -52,7 +33,7 @@ void start_execution(t_command *cmd)
 	exit (126);
 }
 
-void sighandler(int sig)
+void	sighandler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
@@ -82,7 +63,7 @@ int	start_fork(t_command *cmd)
 	if (!cmd->next && !cmd->prev && is_env(cmd))
 	{
 		check_singl_built(cmd);
-		return(1);
+		return (1);
 	}
 	if (cmd->next != NULL && pipe(cmd->pip) == -1)
 	{

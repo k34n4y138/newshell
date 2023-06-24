@@ -12,7 +12,7 @@
 
 #include "execution.h"
 
-void exit_file(char *file_name)
+void	exit_file(char *file_name)
 {
 	ft_printf_fd(2, "minishell: %s: %s\n", file_name, strerror(errno));
 	exit(1);
@@ -21,7 +21,7 @@ void exit_file(char *file_name)
 t_redirection	*creat_out_file(t_redirection *redirect)
 {
 	char			*file_name;
-	
+
 	file_name = filename_expand(redirect->file);
 	if (redirect->type & REDIR_FILEOUT)
 	{
@@ -71,7 +71,7 @@ void	handl_output(t_command *cmd)
 {
 	t_redirection	*last_out;
 	t_redirection	*redirect;
-	char	*file_name;
+	char			*file_name;
 
 	redirect = cmd->_redirects;
 	if (cmd->redirs & (REDIR_FILEOUT | REDIR_FILEAPND))

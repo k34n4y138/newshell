@@ -19,16 +19,23 @@
 # include "../libft/libft.h"
 # include "built_ins/builtins.h"
 # include <readline/readline.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
 
-//define
+/**************************************************************/
+/*                            DEFINES                         */
+/**************************************************************/
 
 # define READ_END 0
 # define WRITE_END 1
+
+/**************************************************************/
+/*                            STRUCT                          */
+/**************************************************************/
 
 typedef struct s_herdoc
 {
@@ -42,43 +49,27 @@ typedef struct s_herdoc
 	int				pip[2];
 }	t_herdoc;
 
+/**************************************************************/
+/*                    FUNCTION EXECUTION                      */
+/**************************************************************/
 
 t_redirection	*check_last_input_herdoc(t_command *cmd);
-
-//check_herdoc
-
-int		read_herdoc(t_command *cmd);
-
-//check_env
-
-int		is_env(t_command *cmd);
-void	check_singl_built(t_command *cmd);
-void	check_built_in(t_command *cmd);
-
-//execition
-
-void	check_built_in(t_command *cmd);
-void	execution(t_command *cmds);
-char	*get_path(char *path, char *cmd0, int status);
-void	exit_file(char *file_name);
-
-// utiles_get_path
-
-void	check_cmd(t_command *cmd);
-void	close_prev_pip(t_command *cmd);
-void	wait_for_childs(t_command *cmd);
-
-//input_redires
-
-void	handl_input(t_command *cmd);
-
-//output_redires
-
-void	handl_output(t_command *cmd);
-
-
+int				read_herdoc(t_command *cmd);
+int				is_env(t_command *cmd);
+void			check_singl_built(t_command *cmd);
+void			check_built_in(t_command *cmd);
+void			check_built_in(t_command *cmd);
+void			execution(t_command *cmds);
+char			*get_path(char *path, char *cmd0, int status);
+void			exit_file(char *file_name);
+int				is_dir(char *path);
+void			check_cmd(t_command *cmd);
+void			close_prev_pip(t_command *cmd);
+void			wait_for_childs(t_command *cmd);
+void			handl_input(t_command *cmd);
+void			handl_output(t_command *cmd);
 /// @brief expand filename and throw error if ambiguous
 ///  designed to be called from child after invoking fork 
-char	*filename_expand(char	*ftoken);
+char			*filename_expand(char	*ftoken);
 
 #endif

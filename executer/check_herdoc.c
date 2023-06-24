@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_herdoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/24 10:47:48 by yowazga           #+#    #+#             */
+/*   Updated: 2023/06/24 10:48:07 by yowazga          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execution.h"
 
 char	*expand_line(char *line);
@@ -17,9 +29,21 @@ t_redirection	*check_last_input_herdoc(t_command *cmd)
 	return (last_infile);
 }
 
-void		start_read_herdoc(t_redirection *redirect, int *pip)
+void	read_data(t_redirection *redirect, t_herdoc *hed)
 {
-	t_herdoc hed;
+	hed->read_2 = readline("> ");
+	if (!(redirect->type & HRDC_NO_EXPAND) && hed->read_2)
+	{
+		hed->read = expand_line(hed->read_2);
+		free(hed->read_2);
+	}
+	else
+		hed->read = hed->read_2;
+}
+
+void	start_read_herdoc(t_redirection *redirect, int *pip)
+{
+	t_herdoc	hed;
 
 	hed.stor = ft_calloc(1, 1);
 	close(pip[0]);
@@ -27,14 +51,7 @@ void		start_read_herdoc(t_redirection *redirect, int *pip)
 	signal(SIGQUIT, SIG_DFL);
 	while (1)
 	{
-		hed.read_2 = readline("> ");
-		if (!(redirect->type & HRDC_NO_EXPAND) && hed.read_2)
-		{
-			hed.read = expand_line(hed.read_2);
-			free(hed.read_2);
-		}
-		else
-			hed.read = hed.read_2;
+		read_data(redirect, &hed);
 		if (!hed.read || !ft_strcmp(redirect->file, hed.read))
 		{
 			free(hed.read);
@@ -48,10 +65,10 @@ void		start_read_herdoc(t_redirection *redirect, int *pip)
 	exit(0);
 }
 
-int read_herdoc(t_command *cmd)
+int	read_herdoc(t_command *cmd)
 {
 	t_herdoc	hrd;
-	
+
 	hrd.head = cmd;
 	while (hrd.head && (hrd.head->redirs & REDIR_HEREDOC))
 	{
@@ -68,7 +85,7 @@ int read_herdoc(t_command *cmd)
 			hrd.redirect->fd = hrd.pip[0];
 			close(hrd.pip[1]);
 			waitpid(hrd.pid, &hrd.status, 0);
-			if (WIFSIGNALED(hrd.status))
+			if (hrd.status & 0x7F)
 				return (1);
 			hrd.redirect = hrd.redirect->next;
 		}

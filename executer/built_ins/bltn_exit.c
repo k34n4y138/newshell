@@ -26,7 +26,7 @@ void	check_num_required(t_command *cmd)
 		{
 			ft_printf_fd(1, "exit\n");
 			ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n",
-					cmd->argv[1]);
+				cmd->argv[1]);
 			destroy_commands(cmd);
 			exit(255);
 		}
@@ -37,6 +37,7 @@ void	check_num_required(t_command *cmd)
 void	moor_arguments_1(t_command *cmd)
 {
 	int	status;
+
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 	{

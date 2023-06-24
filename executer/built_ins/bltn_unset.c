@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../parser/command_builders/t_command.h"
 #include "../../libft/libft.h"
 #include "../../env_tools/env_manager.h"

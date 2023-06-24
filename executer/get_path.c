@@ -31,24 +31,6 @@ void	free_paths(char **paths)
 	free(paths);
 }
 
-// char	*check_p(char *cmd)
-// {
-// 	char	*valid;
-
-// 	valid = NULL;
-// 	if (access(cmd, F_OK) == 0)
-// 	{
-// 		if (access(cmd, X_OK) == 0)
-// 			valid = ft_strdup(cmd);
-// 		else
-// 		{
-// 			ft_printf_fd(2, "minishell: %s: permission denied\n", cmd);
-// 			exit (126);
-// 		}
-// 	}
-// 	return (valid);
-// }
-
 char	*get_valid_path(char *path, char *cmd0)
 {
 	char	**paths;
@@ -79,7 +61,7 @@ char	*get_valid_path(char *path, char *cmd0)
 
 char	*check_if_inpath(char *cmd)
 {
-	if (access(cmd, F_OK) == 0)	
+	if (access(cmd, F_OK) == 0)
 		return (cmd);
 	print_error("No such file or directory", cmd);
 	return (NULL);

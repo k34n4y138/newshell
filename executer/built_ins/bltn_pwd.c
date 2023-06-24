@@ -14,7 +14,7 @@
 
 void	bltn_pwd(t_command *cmd)
 {
-	char cwd[1024];
+	char	cwd[1024];
 
 	(void) cmd;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
