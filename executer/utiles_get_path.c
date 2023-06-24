@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utiles_get_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/24 10:52:28 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/24 11:49:08 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,22 @@ void	wait_for_childs(t_command *cmd)
 {
 	int	status;
 
-	while (cmd)
+	if (waitpid(cmd->pid, &status, 0) == -1)
 	{
-		if (waitpid(cmd->pid, &status, 0) == -1)
+		perror("waitpid");
+		exit(EXIT_FAILURE);
+	}
+	env_exit_status(status >> 8, 1);
+	while (1)
+	{
+		if (waitpid(-1, NULL, 0) == -1)
 		{
+			if (errno == ECHILD)
+				break ;
 			perror("waitpid");
 			exit(EXIT_FAILURE);
 		}
-		cmd = cmd->next;
 	}
-	env_exit_status(status >> 8, 1);
 }
 
 void	close_prev_pip(t_command *cmd)
