@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:31:09 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/24 11:47:03 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:30:47 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ void	start_execution(t_command *cmd)
 {
 	handl_output(cmd);
 	handl_input(cmd);
-	cmd->envp = env_export();
 	check_built_in(cmd);
 	check_cmd(cmd);
+	env_update("_", cmd->path, 1);
+	cmd->envp = env_export();
+	env_delete("_");
 	if (cmd->redirs & REDIR_PIPEOUT)
 	{
 		close(cmd->pip[READ_END]);
