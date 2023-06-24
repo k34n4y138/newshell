@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 17:14:26 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/24 11:49:08 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 15:50:14 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ void	wait_for_childs(t_command *cmd)
 		perror("waitpid");
 		exit(EXIT_FAILURE);
 	}
-	env_exit_status(status >> 8, 1);
+	if (status & 0x7f)
+		status = 128 + (status & 0x7f);
+	else
+		status = status >> 8;
+	env_exit_status(status, 1);
 	while (1)
 	{
 		if (waitpid(-1, NULL, 0) == -1)
