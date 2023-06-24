@@ -17,6 +17,8 @@ int	check_argv(char *av)
 	int	i;
 
 	i = 0;
+	if (av[i] == '\0')
+		return (1);
 	while (av[i])
 	{
 		if (av[i] == '-' && av[i + 1] == 'n')
