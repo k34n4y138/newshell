@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:14:50 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 22:41:48 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 12:44:16 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ t_token	*aux_handle_vartok(t_token	*token)
 	if (token->prev
 		&& (token->prev->type & TOK_REDIRS
 			|| (token->prev->type & TOK_LITERAL && !token->prev->space_after
-				&& token->prev->prev && token->prev->prev->type & TOK_REDIRS)
-		)
-	)
+				&& token->prev->prev && token->prev->prev->type & TOK_REDIRS)))
 	{
 		token->token = ft_strdup(token->raw);
 		return (token->prev);
@@ -81,9 +79,10 @@ t_token	*aux_handle_vartok(t_token	*token)
 			&& token->prev->space_after == false
 			&& token->prev->type & TOK_LITERAL
 			&& ft_strchr(token->prev->token, '=')
-			&& is_bltn_export_context(token))
-	)
+			&& is_bltn_export_context(token)))
 		return (token->prev);
+	if (token->token[0] == ' ' && token->prev)
+		token->prev->space_after = true;
 	replace_token(token, tokenizer(token->token, true));
 	if (token->prev)
 		return (token->prev);
