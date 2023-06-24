@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:15:12 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 21:31:27 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 12:36:41 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #include "../../libft/libft.h"
 #include "../../env_tools/env_manager.h"
 #include <stdio.h>
+
+void	print_with_escape(char	*str)
+{
+	while (*str)
+	{
+		if (ft_strchr("\"\\$", *str))
+			ft_printf_fd(1, "\\");
+		ft_printf_fd(1, "%c", *str);
+		str++;
+	}
+}
 
 void	print_args(void)
 {
@@ -24,7 +35,11 @@ void	print_args(void)
 	{
 		ft_printf_fd(1, "declare -x %s", env->key);
 		if (env->value)
-			ft_printf_fd(1, "=\"%s\"", env->value);
+		{
+			ft_printf_fd(1, "=\"");
+			print_with_escape(env->value);
+			ft_printf_fd(1, "\"");
+		}
 		ft_printf_fd(1, "\n");
 		env = env->next;
 	}
