@@ -49,7 +49,7 @@ void start_execution(t_command *cmd)
 		exit(126);
 	execve(cmd->path, cmd->argv, cmd->envp);
 	ft_printf_fd(2, "minishell: %s\n", strerror(errno));
-	exit (127);
+	exit (126);
 }
 
 void sighandler(int sig)
