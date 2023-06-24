@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:34:59 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/23 16:47:20 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 14:49:39 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	filename_errexit(char	*fname, char *err)
 	ft_printf_fd(2, "minishell: %s: %s\n", fname, err);
 	exit (1);
 }
-
 
 int	aux_expander(char **ftoken, char	**fname)
 {
@@ -57,7 +56,8 @@ char	*expand_fname(char	*ftoken)
 		else if (*ftoken == '$' && env_namelen(ftoken + 1) && qt != '\'')
 			fln += aux_expander(&ftoken, &fname);
 		else
-			fname = ft_strjoin_free(fname, ft_substr(ftoken++, 0, 1),1 , 1);
+			fname = ft_strjoin_free(fname,
+					ft_substr(ftoken++, 0, 1), 1, 1);
 	}
 	return (fname);
 }
