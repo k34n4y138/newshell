@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_env.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/24 10:46:10 by yowazga           #+#    #+#             */
+/*   Updated: 2023/06/24 10:47:32 by yowazga          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execution.h"
 
 int	is_env(t_command *cmd)
@@ -37,7 +49,8 @@ void	check_built_in(t_command *cmd)
 		bltn_export(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "unset"))
 		bltn_unset(cmd);
-	else if (!ft_strcmp(cmd->argv[0], "echo") || !ft_strcmp(cmd->argv[0], "ECHO"))
+	else if (!ft_strcmp(cmd->argv[0], "echo")
+		|| !ft_strcmp(cmd->argv[0], "ECHO"))
 		bltn_echo(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "cd"))
 		bltn_cd(cmd);
