@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltn_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:15:12 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/21 10:47:49 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/23 21:31:27 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,27 @@
 #include "../../env_tools/env_manager.h"
 #include <stdio.h>
 
-void	print_args()
+void	print_args(void)
 {
 	t_envirun	*env;
+
 	env = *env_store(0);
 	while (env)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(env->key, 1);
+		ft_printf_fd(1, "declare -x %s", env->key);
 		if (env->value)
-		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(env->value, 1);
-			ft_putstr_fd("\"", 1);
-		}
-		ft_putstr_fd("\n", 1);
+			ft_printf_fd(1, "=\"%s\"", env->value);
+		ft_printf_fd(1, "\n");
 		env = env->next;
 	}
+}
+
+int	iden_not_valid(char	*line, char *key, char *value)
+{
+	ft_printf_fd(2, "minishell: export: `%s': not a valid identifier\n", line);
+	free(key);
+	free(value);
+	return (1);
 }
 
 int	add_env(char *line, int set)
@@ -53,10 +57,10 @@ int	add_env(char *line, int set)
 			env_update(key, value, 1);
 	}
 	else
-		ft_printf_fd(2, "minishell: export: `%s': not a valid identifier\n", line);
+		return (iden_not_valid(line, key, value));
 	free(key);
 	free(value);
-	return (1);
+	return (0);
 }
 
 void	bltn_export(t_command *cmd)

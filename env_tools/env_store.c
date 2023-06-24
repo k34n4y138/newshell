@@ -6,12 +6,13 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 15:51:42 by zmoumen           #+#    #+#             */
-/*   Updated: 2023/06/15 18:32:36 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/23 22:08:26 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "env_manager.h"
+#include <unistd.h>
 
 t_envirun	**env_store(int destroy)
 {
@@ -35,6 +36,7 @@ void	env_init(char	**initenv)
 	t_envirun	**env;
 	t_envirun	*traverser;
 	t_envirun	*tmp;
+	char		*tmpwd;
 
 	env = env_store(0);
 	traverser = *env;
@@ -51,6 +53,10 @@ void	env_init(char	**initenv)
 		traverser = tmp;
 		initenv++;
 	}
+	env_update("OLDPWD", NULL, 1);
+	tmpwd = getcwd(NULL, 0);
+	env_update("PWD", tmpwd, 1);
+	free(tmpwd);
 }
 
 int	env_exit_status(int status, int set)

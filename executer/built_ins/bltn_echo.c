@@ -33,9 +33,9 @@ void	print_argv(t_command *cmd, int i)
 		check = 1;
 	while (cmd->argv[i])
 	{
-		ft_printf_fd(1, "%s", cmd->argv[i]);
+		write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
 		if (cmd->argv[i + 1])
-			ft_printf_fd(1, " ");
+			write(1, " ", 1);
 		i++;
 	}
 	if (check)
@@ -49,7 +49,7 @@ void	bltn_echo(t_command *cmd)
 	i = 0;
 	if (cmd->argc == 1)
 	{
-		ft_printf_fd(1, "\n");
+		write(1, "\n", 1);
 		exit(0);
 	}
 	while (cmd->argv[++i])

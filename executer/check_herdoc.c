@@ -28,7 +28,7 @@ void		start_read_herdoc(t_redirection *redirect, int *pip)
 	while (1)
 	{
 		hed.read_2 = readline("> ");
-		if (!(redirect->type & REDIR_HEREDOC) && hed.read_2)
+		if (!(redirect->type & HRDC_NO_EXPAND) && hed.read_2)
 		{
 			hed.read = expand_line(hed.read_2);
 			free(hed.read_2);
@@ -65,11 +65,11 @@ int read_herdoc(t_command *cmd)
 				exit(EXIT_FAILURE);
 			else if (hrd.pid == 0)
 				start_read_herdoc(hrd.redirect, hrd.pip);
+			hrd.redirect->fd = hrd.pip[0];
+			close(hrd.pip[1]);
 			waitpid(hrd.pid, &hrd.status, 0);
 			if (WIFSIGNALED(hrd.status))
 				return (1);
-			hrd.redirect->fd = hrd.pip[0];
-			close(hrd.pip[1]);
 			hrd.redirect = hrd.redirect->next;
 		}
 		hrd.head = hrd.head->next;
