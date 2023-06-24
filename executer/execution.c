@@ -62,6 +62,7 @@ int	start_fork(t_command *cmd)
 {
 	if (!cmd->next && !cmd->prev && is_env(cmd))
 	{
+		handl_redir_in_singl_env(cmd);
 		check_singl_built(cmd);
 		return (1);
 	}

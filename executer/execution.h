@@ -72,5 +72,5 @@ void			handl_output(t_command *cmd);
 /// @brief expand filename and throw error if ambiguous
 ///  designed to be called from child after invoking fork 
 char			*filename_expand(char	*ftoken);
-
+void			handl_redir_in_singl_env(t_command *cmd);
 #endif

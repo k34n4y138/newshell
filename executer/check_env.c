@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 10:46:10 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/24 10:47:32 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:34:39 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,23 @@ void	check_built_in(t_command *cmd)
 		bltn_echo(cmd);
 	else if (!ft_strcmp(cmd->argv[0], "cd"))
 		bltn_cd(cmd);
+}
+
+void	handl_redir_in_singl_env(t_command *cmd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("minishell");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		handl_output(cmd);
+		handl_input(cmd);
+		exit(EXIT_SUCCESS);
+	}
+	waitpid(pid, NULL, 0);
 }
