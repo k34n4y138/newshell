@@ -6,7 +6,7 @@
 /*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 10:47:48 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/24 14:38:36 by zmoumen          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:28:41 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,14 @@ t_redirection	*check_last_input_herdoc(t_command *cmd)
 	return (last_infile);
 }
 
-void	read_data(t_redirection *redirect, t_herdoc *hed)
+int	read_data(t_redirection *redirect, t_herdoc *hed)
 {
 	hed->read_2 = readline("> ");
+	if (!ft_strcmp(hed->read_2, redirect->file))
+	{
+		free(hed->read_2);
+		return (1);
+	}
 	if (!(redirect->type & HRDC_NO_EXPAND) && hed->read_2)
 	{
 		hed->read = expand_line(hed->read_2);
@@ -39,6 +44,7 @@ void	read_data(t_redirection *redirect, t_herdoc *hed)
 	}
 	else
 		hed->read = hed->read_2;
+	return (0);
 }
 
 void	start_read_herdoc(t_redirection *redirect, int *pip)
@@ -51,7 +57,8 @@ void	start_read_herdoc(t_redirection *redirect, int *pip)
 	signal(SIGQUIT, SIG_DFL);
 	while (1)
 	{
-		read_data(redirect, &hed);
+		if (read_data(redirect, &hed))
+			break ;
 		if (!hed.read || !ft_strcmp(redirect->file, hed.read))
 		{
 			free(hed.read);
