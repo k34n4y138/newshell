@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yowazga <yowazga@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zmoumen <zmoumen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 09:12:28 by yowazga           #+#    #+#             */
-/*   Updated: 2023/06/22 09:49:51 by yowazga          ###   ########.fr       */
+/*   Updated: 2023/06/24 14:46:40 by zmoumen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **environ)
 {
 	char		*line;
 	t_command	*cmd;
+	char		*prompt;
 
 	(void)argv;
 	(void)argc;
@@ -39,8 +40,11 @@ int	main(int argc, char **argv, char **environ)
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
-		line = readline("minishell>$ ");
+		signal(SIGQUIT, SIG_IGN);
+		prompt = "minishell$\033[0;32m▶︎\033[0m ";
+		if (env_exit_status(0, 0))
+			prompt = "minishell$\033[0;31m▶︎\033[0m ";
+		line = ft_strtrim(get_next_line(0), "\n");
 		if (!line)
 			break ;
 		add_history(line);
